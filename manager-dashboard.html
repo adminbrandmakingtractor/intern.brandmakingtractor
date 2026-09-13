@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Manager Dashboard — intern.brandmakingtractor.com</title>
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="managerdashboard">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="section-tight">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+      <div>
+        <span class="eyebrow blue">Manager Dashboard</span>
+        <h1 style="font-size:26px;margin:0;">Welcome back, <span id="managerName">Manager</span></h1>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">Log Out</button>
+    </div>
+
+    <div class="grid grid-4" style="margin-bottom:32px;">
+      <div class="value-card"><h3 id="statApplications">—</h3><p>Total Applications</p></div>
+      <div class="value-card"><h3 id="statPaymentPending">—</h3><p>Payments Pending</p></div>
+      <div class="value-card"><h3 id="statPending">—</h3><p>Pending Certificate Requests</p></div>
+      <div class="value-card"><h3 id="statIssued">—</h3><p>Certificates Issued</p></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="applications">Applications</button>
+      <button class="tab-btn" data-tab="coupons">Coupons</button>
+      <button class="tab-btn" data-tab="requests">Certificate Requests</button>
+      <button class="tab-btn" data-tab="openings">Internship Openings</button>
+    </div>
+
+    <!-- ============ APPLICATIONS TAB ============ -->
+    <div class="tab-panel active" id="tab-applications">
+      <div class="admin-toolbar">
+        <input type="text" id="appSearch" placeholder="Search by App No., Name, Email, Phone or Internship">
+        <select id="appStatusFilter">
+          <option value="">All Application Statuses</option>
+          <option>New</option><option>Payment Pending</option><option>Payment Received</option>
+          <option>Under Review</option><option>Selected</option><option>Rejected</option>
+          <option>Training</option><option>Live Project</option><option>Completed</option>
+          <option>Certificate Requested</option><option>Certificate Approved</option>
+        </select>
+        <select id="paymentStatusFilter">
+          <option value="">All Payment Statuses</option>
+          <option>Payment Pending</option><option>Payment Proof Received</option>
+          <option>Payment Verified</option><option>Payment Rejected</option>
+        </select>
+      </div>
+      <div id="appResultCount" style="margin-bottom:12px;color:var(--gray-500);font-size:13.5px;"></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th>App No.</th><th>Name</th><th>Email</th><th>Phone</th><th>Internship</th><th>Duration</th>
+            <th>Original Fee</th><th>Coupon</th><th>Discount</th><th>Final Amount</th>
+            <th>Payment Status</th><th>Application Status</th><th>Date</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="applicationsBody"><tr><td colspan="14"><div class="loader-row">Loading applications...</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ COUPONS TAB ============ -->
+    <div class="tab-panel" id="tab-coupons">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+        <button class="btn btn-primary btn-sm" id="addCouponBtn">+ Add Coupon</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th>Code</th><th>Discount %</th><th>Start Date</th><th>Expiry Date</th>
+            <th>Usage Limit</th><th>Used</th><th>Status</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="couponsBody"><tr><td colspan="8"><div class="loader-row">Loading coupons...</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ CERTIFICATE REQUESTS TAB ============ -->
+    <div class="tab-panel" id="tab-requests">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th>Request ID</th><th>App No.</th><th>Intern ID</th><th>Name</th><th>Internship</th>
+            <th>Duration</th><th>Status</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="requestsBody"><tr><td colspan="8"><div class="loader-row">Loading requests...</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ OPENINGS TAB ============ -->
+    <div class="tab-panel" id="tab-openings">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th>Opening ID</th><th>Title</th><th>Department</th><th>Openings</th><th>Status</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="openingsBody"><tr><td colspan="6"><div class="loader-row">Loading openings...</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLICATION MANAGE MODAL ============ -->
+<div class="modal-overlay" id="appModal">
+  <div class="modal-card" style="max-width:640px;position:relative;">
+    <button class="modal-close" data-close="appModal">&times;</button>
+    <h3>Manage Application</h3>
+    <p style="margin-bottom:16px;color:var(--gray-500);" id="appModalSubtitle">—</p>
+
+    <div id="appModalDetails" style="margin-bottom:18px;"></div>
+
+    <div class="form-grid">
+      <div class="field"><label>Full Name</label><input type="text" id="mFullName"></div>
+      <div class="field"><label>Email</label><input type="email" id="mEmail"></div>
+      <div class="field"><label>Phone</label><input type="tel" id="mPhone"></div>
+      <div class="field"><label>Application Status</label>
+        <select id="mAppStatus">
+          <option>New</option><option>Payment Pending</option><option>Payment Received</option>
+          <option>Under Review</option><option>Selected</option><option>Rejected</option>
+          <option>Training</option><option>Live Project</option><option>Completed</option>
+          <option>Certificate Requested</option><option>Certificate Approved</option>
+        </select>
+      </div>
+      <div class="field"><label>Payment Status</label>
+        <select id="mPaymentStatus">
+          <option>Payment Pending</option><option>Payment Proof Received</option>
+          <option>Payment Verified</option><option>Payment Rejected</option>
+        </select>
+      </div>
+      <div class="field"><label>Payment Proof Status</label>
+        <select id="mPaymentProofStatus">
+          <option>Not Received</option><option>Received</option>
+        </select>
+      </div>
+      <div class="field"><label>Start Date</label><input type="date" id="mStartDate"></div>
+      <div class="field"><label>Completion Date</label><input type="date" id="mCompletionDate"></div>
+      <div class="field full"><label>Manager Notes</label><textarea id="mManagerNotes" placeholder="Internal notes..."></textarea></div>
+    </div>
+    <button class="btn btn-primary btn-block" id="mSaveBtn">Save Changes</button>
+  </div>
+</div>
+
+<!-- ============ COUPON MODAL ============ -->
+<div class="modal-overlay" id="couponModal">
+  <div class="modal-card" style="max-width:460px;position:relative;">
+    <button class="modal-close" data-close="couponModal">&times;</button>
+    <h3 id="couponModalTitle">Add Coupon</h3>
+    <div class="field"><label>Coupon Code <span class="req">*</span></label><input type="text" id="cCode" style="text-transform:uppercase;"></div>
+    <div class="field"><label>Discount Percentage <span class="req">*</span></label><input type="number" id="cDiscount" min="1" max="100"></div>
+    <div class="field"><label>Start Date <span class="req">*</span></label><input type="date" id="cStartDate"></div>
+    <div class="field"><label>Expiry Date <span class="req">*</span></label><input type="date" id="cExpiryDate"></div>
+    <div class="field"><label>Usage Limit <span class="req">*</span></label><input type="number" id="cUsageLimit" min="1"></div>
+    <div class="field"><label>Status</label>
+      <select id="cStatus"><option>Active</option><option>Inactive</option></select>
+    </div>
+    <button class="btn btn-primary btn-block" id="cSaveBtn">Save Coupon</button>
+  </div>
+</div>
+
+<!-- ============ CERTIFICATE VIEW MODAL ============ -->
+<div class="modal-overlay" id="certViewModal">
+  <div class="modal-card" style="max-width:520px;position:relative;">
+    <button class="modal-close" data-close="certViewModal">&times;</button>
+    <h3>Certificate Request Details</h3>
+    <div id="certViewBody" style="margin-top:16px;"></div>
+  </div>
+</div>
+
+<!-- ============ CERTIFICATE APPROVE MODAL ============ -->
+<div class="modal-overlay" id="certApproveModal">
+  <div class="modal-card" style="max-width:460px;position:relative;">
+    <button class="modal-close" data-close="certApproveModal">&times;</button>
+    <h3>Approve Certificate</h3>
+    <p style="margin-bottom:20px;color:var(--gray-500);">This generates a Credential ID, builds the PDF, and emails the intern automatically.</p>
+    <div class="field"><label>Start Date <span class="req">*</span></label><input type="date" id="apStartDate" required></div>
+    <div class="field"><label>Completion Date <span class="req">*</span></label><input type="date" id="apCompletionDate" required></div>
+    <div class="field"><label>Approved By (Manager Name)</label><input type="text" id="apApprovedBy"></div>
+    <button class="btn btn-primary btn-block" id="apConfirmBtn">Approve &amp; Generate Certificate</button>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+const session = JSON.parse(sessionStorage.getItem("bmt_manager_session") || "null");
+if(!session){ window.location.href = "manager-login"; }
+
+document.getElementById("managerName").textContent = session?.name || "Manager";
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  sessionStorage.removeItem("bmt_manager_session");
+  window.location.href = "manager-login";
+});
+
+let DASH = { applications: [], certificateRequests: [], coupons: [], openings: [], stats: {} };
+
+// Tabs
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+// Generic modal open/close
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+document.querySelectorAll("[data-close]").forEach(btn => {
+  btn.addEventListener("click", () => closeModal(btn.dataset.close));
+});
+document.querySelectorAll(".modal-overlay").forEach(overlay => {
+  overlay.addEventListener("click", (e) => { if(e.target === overlay) overlay.classList.remove("open"); });
+});
+
+async function loadDashboard(){
+  const res = await apiCall("getManagerDashboard", { token: session.token });
+  if(!res.success){
+    if(res.error === "SESSION_EXPIRED" || res.error === "UNAUTHORIZED"){
+      sessionStorage.removeItem("bmt_manager_session");
+      window.location.href = "manager-login";
+      return;
+    }
+    document.getElementById("applicationsBody").innerHTML = `<tr><td colspan="14">${escapeHtml(res.error || "Could not load data.")}</td></tr>`;
+    return;
+  }
+
+  DASH = res.data;
+  const { stats = {} } = DASH;
+  document.getElementById("statApplications").textContent = stats.totalApplications ?? DASH.applications.length;
+  document.getElementById("statPaymentPending").textContent = stats.paymentPending ?? "—";
+  document.getElementById("statPending").textContent = stats.pendingCertificates ?? "—";
+  document.getElementById("statIssued").textContent = stats.issuedCertificates ?? "—";
+
+  renderApplications();
+  renderCoupons();
+  renderCertRequests();
+  renderOpenings();
+}
+
+/* ============ APPLICATIONS ============ */
+function paymentPillClass(status){
+  switch(status){
+    case "Payment Verified": return "status-approved";
+    case "Payment Rejected": return "status-rejected";
+    case "Payment Proof Received": return "status-issued";
+    default: return "status-pending";
+  }
+}
+function appStatusPillClass(status){
+  if(["Selected","Completed","Certificate Approved"].indexOf(status) !== -1) return "status-approved";
+  if(status === "Rejected") return "status-rejected";
+  if(["Training","Live Project","Certificate Requested"].indexOf(status) !== -1) return "status-issued";
+  return "status-pending";
+}
+
+function renderApplications(){
+  const q = document.getElementById("appSearch").value.trim().toLowerCase();
+  const statusFilter = document.getElementById("appStatusFilter").value;
+  const paymentFilter = document.getElementById("paymentStatusFilter").value;
+
+  const filtered = DASH.applications.filter(a => {
+    const matchesQ = !q ||
+      String(a.Application_ID).toLowerCase().includes(q) ||
+      String(a.Full_Name).toLowerCase().includes(q) ||
+      String(a.Email).toLowerCase().includes(q) ||
+      String(a.Phone).toLowerCase().includes(q) ||
+      String(a.Internship_Role).toLowerCase().includes(q);
+    const matchesStatus = !statusFilter || a.Application_Status === statusFilter;
+    const matchesPayment = !paymentFilter || a.Payment_Status === paymentFilter;
+    return matchesQ && matchesStatus && matchesPayment;
+  });
+
+  document.getElementById("appResultCount").textContent = `Showing ${filtered.length} of ${DASH.applications.length} applications`;
+
+  document.getElementById("applicationsBody").innerHTML = filtered.length ? filtered.map(a => `
+    <tr>
+      <td>${escapeHtml(a.Application_ID)}</td>
+      <td>${escapeHtml(a.Full_Name)}</td>
+      <td>${escapeHtml(a.Email)}</td>
+      <td>${escapeHtml(a.Phone)}</td>
+      <td>${escapeHtml(a.Internship_Role)}</td>
+      <td>${escapeHtml(a.Duration)}</td>
+      <td>₹${Number(a.Original_Fee||0).toLocaleString("en-IN")}</td>
+      <td>${escapeHtml(a.Coupon_Code) || "—"}</td>
+      <td>${a.Discount_Percentage ? a.Discount_Percentage + "%" : "—"}</td>
+      <td>₹${Number(a.Final_Amount||0).toLocaleString("en-IN")}</td>
+      <td><span class="status-pill ${paymentPillClass(a.Payment_Status)}">${escapeHtml(a.Payment_Status)}</span></td>
+      <td><span class="status-pill ${appStatusPillClass(a.Application_Status)}">${escapeHtml(a.Application_Status)}</span></td>
+      <td>${formatDate(a.Timestamp)}</td>
+      <td><button class="btn btn-secondary btn-sm manageBtn" data-id="${escapeHtml(a.Application_ID)}">Manage</button></td>
+    </tr>`).join("") : `<tr><td colspan="14"><div class="empty-state">No applications match your filters.</div></td></tr>`;
+
+  document.querySelectorAll(".manageBtn").forEach(btn => {
+    btn.addEventListener("click", () => openAppModal(btn.dataset.id));
+  });
+}
+
+let currentAppId = null;
+function openAppModal(applicationId){
+  const a = DASH.applications.find(x => x.Application_ID === applicationId);
+  if(!a) return;
+  currentAppId = applicationId;
+
+  document.getElementById("appModalSubtitle").textContent = `${a.Application_ID} — ${a.Full_Name}`;
+  document.getElementById("appModalDetails").innerHTML = `
+    <div class="detail-kv"><span>Internship</span><span>${escapeHtml(a.Internship_Role)}</span></div>
+    <div class="detail-kv"><span>Duration</span><span>${escapeHtml(a.Duration)}</span></div>
+    <div class="detail-kv"><span>Original Fee</span><span>₹${Number(a.Original_Fee||0).toLocaleString("en-IN")}</span></div>
+    <div class="detail-kv"><span>Coupon</span><span>${escapeHtml(a.Coupon_Code) || "None"} ${a.Discount_Percentage ? "(" + a.Discount_Percentage + "% off)" : ""}</span></div>
+    <div class="detail-kv"><span>Final Amount</span><span>₹${Number(a.Final_Amount||0).toLocaleString("en-IN")}</span></div>
+    <div class="detail-kv"><span>Resume</span><span>${a.Resume ? `<a href="${escapeHtml(a.Resume)}" target="_blank" rel="noopener">Open</a>` : "—"}</span></div>
+  `;
+
+  document.getElementById("mFullName").value = a.Full_Name || "";
+  document.getElementById("mEmail").value = a.Email || "";
+  document.getElementById("mPhone").value = a.Phone || "";
+  document.getElementById("mAppStatus").value = a.Application_Status || "New";
+  document.getElementById("mPaymentStatus").value = a.Payment_Status || "Payment Pending";
+  document.getElementById("mPaymentProofStatus").value = a.Payment_Proof_Status || "Not Received";
+  document.getElementById("mStartDate").value = a.Start_Date ? formatDateInput_(a.Start_Date) : "";
+  document.getElementById("mCompletionDate").value = a.Completion_Date ? formatDateInput_(a.Completion_Date) : "";
+  document.getElementById("mManagerNotes").value = a.Manager_Notes || "";
+
+  openModal("appModal");
+}
+
+function formatDateInput_(d){
+  const date = (d instanceof Date) ? d : new Date(d);
+  if(isNaN(date)) return "";
+  return date.toISOString().slice(0,10);
+}
+
+document.getElementById("mSaveBtn").addEventListener("click", async () => {
+  const btn = document.getElementById("mSaveBtn");
+  setBtnLoading(btn, true, "Saving...");
+  const res = await apiCall("updateApplicationStatus", {
+    token: session.token,
+    applicationId: currentAppId,
+    fullName: document.getElementById("mFullName").value.trim(),
+    email: document.getElementById("mEmail").value.trim(),
+    phone: document.getElementById("mPhone").value.trim(),
+    applicationStatus: document.getElementById("mAppStatus").value,
+    paymentStatus: document.getElementById("mPaymentStatus").value,
+    paymentProofStatus: document.getElementById("mPaymentProofStatus").value,
+    startDate: document.getElementById("mStartDate").value,
+    completionDate: document.getElementById("mCompletionDate").value,
+    managerNotes: document.getElementById("mManagerNotes").value
+  });
+  setBtnLoading(btn, false);
+  if(res.success){
+    closeModal("appModal");
+    loadDashboard();
+  }else{
+    alert(res.error || "Could not update application.");
+  }
+});
+
+["appSearch","appStatusFilter","paymentStatusFilter"].forEach(id => {
+  document.getElementById(id).addEventListener("input", renderApplications);
+  document.getElementById(id).addEventListener("change", renderApplications);
+});
+
+/* ============ COUPONS ============ */
+function renderCoupons(){
+  document.getElementById("couponsBody").innerHTML = DASH.coupons.length ? DASH.coupons.map(c => `
+    <tr>
+      <td><strong>${escapeHtml(c.Coupon_Code)}</strong></td>
+      <td>${c.Discount_Percentage}%</td>
+      <td>${formatDate(c.Start_Date)}</td>
+      <td>${formatDate(c.Expiry_Date)}</td>
+      <td>${c.Usage_Limit}</td>
+      <td>${c.Used_Count || 0}</td>
+      <td><span class="status-pill ${c.Status === 'Active' ? 'status-approved' : 'status-rejected'}">${escapeHtml(c.Status)}</span></td>
+      <td>
+        <button class="btn btn-secondary btn-sm editCouponBtn" data-id="${escapeHtml(c.Coupon_ID)}">Edit</button>
+        <button class="btn btn-ghost btn-sm toggleCouponBtn" data-id="${escapeHtml(c.Coupon_ID)}" data-status="${c.Status === 'Active' ? 'Inactive' : 'Active'}">
+          ${c.Status === 'Active' ? 'Deactivate' : 'Activate'}
+        </button>
+      </td>
+    </tr>`).join("") : `<tr><td colspan="8"><div class="empty-state">No coupons yet.</div></td></tr>`;
+
+  document.querySelectorAll(".editCouponBtn").forEach(btn => {
+    btn.addEventListener("click", () => openCouponModal(btn.dataset.id));
+  });
+  document.querySelectorAll(".toggleCouponBtn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const res = await apiCall("toggleCouponStatus", { token: session.token, couponId: btn.dataset.id, status: btn.dataset.status });
+      if(res.success) loadDashboard(); else alert(res.error || "Could not update coupon.");
+    });
+  });
+}
+
+let editingCouponId = null;
+function openCouponModal(couponId){
+  editingCouponId = couponId || null;
+  const c = couponId ? DASH.coupons.find(x => x.Coupon_ID === couponId) : null;
+  document.getElementById("couponModalTitle").textContent = c ? `Edit Coupon — ${c.Coupon_Code}` : "Add Coupon";
+  document.getElementById("cCode").value = c ? c.Coupon_Code : "";
+  document.getElementById("cDiscount").value = c ? c.Discount_Percentage : "";
+  document.getElementById("cStartDate").value = c ? formatDateInput_(c.Start_Date) : "";
+  document.getElementById("cExpiryDate").value = c ? formatDateInput_(c.Expiry_Date) : "";
+  document.getElementById("cUsageLimit").value = c ? c.Usage_Limit : "";
+  document.getElementById("cStatus").value = c ? c.Status : "Active";
+  openModal("couponModal");
+}
+document.getElementById("addCouponBtn").addEventListener("click", () => openCouponModal(null));
+
+document.getElementById("cSaveBtn").addEventListener("click", async () => {
+  const payload = {
+    token: session.token,
+    couponCode: document.getElementById("cCode").value.trim(),
+    discountPercentage: document.getElementById("cDiscount").value,
+    startDate: document.getElementById("cStartDate").value,
+    expiryDate: document.getElementById("cExpiryDate").value,
+    usageLimit: document.getElementById("cUsageLimit").value,
+    status: document.getElementById("cStatus").value
+  };
+  if(!payload.couponCode || !payload.discountPercentage || !payload.startDate || !payload.expiryDate || !payload.usageLimit){
+    alert("Please fill in all coupon fields.");
+    return;
+  }
+  const btn = document.getElementById("cSaveBtn");
+  setBtnLoading(btn, true, "Saving...");
+  const res = editingCouponId
+    ? await apiCall("updateCoupon", Object.assign({ couponId: editingCouponId }, payload))
+    : await apiCall("createCoupon", payload);
+  setBtnLoading(btn, false);
+  if(res.success){
+    closeModal("couponModal");
+    loadDashboard();
+  }else{
+    alert(res.error || "Could not save coupon.");
+  }
+});
+
+/* ============ CERTIFICATE REQUESTS ============ */
+function certStatusPillClass(status){
+  switch(status){
+    case "Approved": return "status-approved";
+    case "Rejected": return "status-rejected";
+    case "Revoked": return "status-rejected";
+    default: return "status-pending";
+  }
+}
+
+function renderCertRequests(){
+  document.getElementById("requestsBody").innerHTML = DASH.certificateRequests.length ? DASH.certificateRequests.map(r => `
+    <tr>
+      <td>${escapeHtml(r.Certificate_ID)}</td>
+      <td>${escapeHtml(r.Application_ID)}</td>
+      <td>${escapeHtml(r.Intern_ID)}</td>
+      <td>${escapeHtml(r.Full_Name)}</td>
+      <td>${escapeHtml(r.Internship_Role)}</td>
+      <td>${escapeHtml(r.Duration)}</td>
+      <td><span class="status-pill ${certStatusPillClass(r.Status)}">${escapeHtml(r.Status)}</span></td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm certViewBtn" data-id="${escapeHtml(r.Certificate_ID)}">View</button>
+        ${r.Status === "Pending" ? `
+          <button class="btn btn-primary btn-sm certApproveBtn" data-id="${escapeHtml(r.Certificate_ID)}">Approve</button>
+          <button class="btn btn-ghost btn-sm certRejectBtn" data-id="${escapeHtml(r.Certificate_ID)}">Reject</button>
+        ` : ""}
+        ${r.Status === "Approved" ? `
+          <a class="btn btn-secondary btn-sm" href="${escapeHtml(r.Certificate_URL)}" target="_blank" rel="noopener">Download</a>
+          <button class="btn btn-ghost btn-sm certResendBtn" data-id="${escapeHtml(r.Certificate_ID)}">Resend Email</button>
+          <button class="btn btn-ghost btn-sm certRevokeBtn" data-id="${escapeHtml(r.Certificate_ID)}">Revoke</button>
+        ` : ""}
+      </td>
+    </tr>`).join("") : `<tr><td colspan="8"><div class="empty-state">No certificate requests yet.</div></td></tr>`;
+
+  document.querySelectorAll(".certViewBtn").forEach(btn => btn.addEventListener("click", () => openCertViewModal(btn.dataset.id)));
+  document.querySelectorAll(".certApproveBtn").forEach(btn => btn.addEventListener("click", () => openCertApproveModal(btn.dataset.id)));
+  document.querySelectorAll(".certRejectBtn").forEach(btn => btn.addEventListener("click", async () => {
+    if(!confirm("Reject this certificate request?")) return;
+    const res = await apiCall("rejectCertificateRequest", { token: session.token, certificateId: btn.dataset.id });
+    if(res.success) loadDashboard(); else alert(res.error || "Could not reject request.");
+  }));
+  document.querySelectorAll(".certResendBtn").forEach(btn => btn.addEventListener("click", async () => {
+    const res = await apiCall("resendCertificateEmail", { token: session.token, certificateId: btn.dataset.id });
+    if(res.success) alert("Certificate email resent."); else alert(res.error || "Could not resend email.");
+  }));
+  document.querySelectorAll(".certRevokeBtn").forEach(btn => btn.addEventListener("click", async () => {
+    if(!confirm("Revoke this certificate? It will no longer verify as valid.")) return;
+    const res = await apiCall("revokeCertificate", { token: session.token, certificateId: btn.dataset.id });
+    if(res.success) loadDashboard(); else alert(res.error || "Could not revoke certificate.");
+  }));
+}
+
+function openCertViewModal(certificateId){
+  const r = DASH.certificateRequests.find(x => x.Certificate_ID === certificateId);
+  if(!r) return;
+  document.getElementById("certViewBody").innerHTML = `
+    <div class="detail-kv"><span>Intern Name</span><span>${escapeHtml(r.Full_Name)}</span></div>
+    <div class="detail-kv"><span>Application Number</span><span>${escapeHtml(r.Application_ID)}</span></div>
+    <div class="detail-kv"><span>Intern ID</span><span>${escapeHtml(r.Intern_ID)}</span></div>
+    <div class="detail-kv"><span>Email</span><span>${escapeHtml(r.Email)}</span></div>
+    <div class="detail-kv"><span>Internship</span><span>${escapeHtml(r.Internship_Role)}</span></div>
+    <div class="detail-kv"><span>Duration</span><span>${escapeHtml(r.Duration)}</span></div>
+    <div class="detail-kv"><span>Start Date</span><span>${formatDate(r.Start_Date)}</span></div>
+    <div class="detail-kv"><span>Completion Date</span><span>${formatDate(r.Completion_Date)}</span></div>
+    <div class="detail-kv"><span>Training Completion</span><span>${r.Training_Completed ? "✅ Completed" : "⏳ Pending"}</span></div>
+    <div class="detail-kv"><span>Live Project Completion</span><span>${r.Live_Project_Completed ? "✅ Completed" : "⏳ Pending"}</span></div>
+    <div class="detail-kv"><span>Notes</span><span>${escapeHtml(r.Request_Notes) || "—"}</span></div>
+    <div class="detail-kv"><span>Status</span><span>${escapeHtml(r.Status)}</span></div>
+    ${r.Status === "Approved" ? `<div class="detail-kv"><span>Credential ID</span><span>${escapeHtml(r.Credential_ID)}</span></div>` : ""}
+  `;
+  openModal("certViewModal");
+}
+
+let currentCertId = null;
+function openCertApproveModal(certificateId){
+  currentCertId = certificateId;
+  document.getElementById("apStartDate").value = "";
+  document.getElementById("apCompletionDate").value = "";
+  document.getElementById("apApprovedBy").value = session.name || "";
+  openModal("certApproveModal");
+}
+
+document.getElementById("apConfirmBtn").addEventListener("click", async () => {
+  const startDate = document.getElementById("apStartDate").value;
+  const completionDate = document.getElementById("apCompletionDate").value;
+  const approvedBy = document.getElementById("apApprovedBy").value.trim() || session.name;
+  if(!startDate || !completionDate){ alert("Please fill both dates."); return; }
+
+  const btn = document.getElementById("apConfirmBtn");
+  setBtnLoading(btn, true, "Generating...");
+  const res = await apiCall("approveCertificate", {
+    token: session.token,
+    certificateId: currentCertId,
+    startDate, completionDate, approvedBy
+  });
+  setBtnLoading(btn, false);
+
+  if(res.success){
+    closeModal("certApproveModal");
+    alert(`Certificate issued! Credential ID: ${res.data.credentialId}`);
+    loadDashboard();
+  }else{
+    alert(res.error || "Could not issue certificate.");
+  }
+});
+
+/* ============ OPENINGS ============ */
+function renderOpenings(){
+  document.getElementById("openingsBody").innerHTML = DASH.openings.length ? DASH.openings.map(o => `
+    <tr>
+      <td>${escapeHtml(o.Opening_ID)}</td>
+      <td>${escapeHtml(o.Title)}</td>
+      <td>${escapeHtml(o.Department)}</td>
+      <td>${o.Openings}</td>
+      <td><span class="badge ${statusBadgeClass(o.Status)}">${escapeHtml(o.Status)}</span></td>
+      <td>
+        <button class="btn btn-ghost btn-sm toggleOpeningBtn" data-id="${escapeHtml(o.Opening_ID)}" data-status="${o.Status === 'Closed' ? 'Open' : 'Closed'}">
+          ${o.Status === 'Closed' ? 'Reopen' : 'Close'}
+        </button>
+      </td>
+    </tr>`).join("") : `<tr><td colspan="6"><div class="empty-state">No openings found.</div></td></tr>`;
+
+  document.querySelectorAll(".toggleOpeningBtn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const res = await apiCall("updateOpeningStatus", { token: session.token, openingId: btn.dataset.id, status: btn.dataset.status });
+      if(res.success) loadDashboard(); else alert(res.error || "Could not update opening status.");
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => { if(session) loadDashboard(); });
+</script>
+</body>
+</html>

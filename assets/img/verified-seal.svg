@@ -1,0 +1,32 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="sealCirclePath" d="M 110,110 m -72,0 a 72,72 0 1,1 144,0 a 72,72 0 1,1 -144,0" />
+  </defs>
+
+  <g>
+    <path d="M110 8
+      L121 24 L140 15 L143 36 L163 40 L157 60 L174 72 L160 88
+      L174 104 L157 116 L163 136 L143 140 L140 161 L121 152
+      L110 168 L99 152 L80 161 L77 140 L57 136 L63 116
+      L46 104 L60 88 L46 72 L63 60 L57 40 L77 36 L80 15 L99 24 Z"
+      fill="#0d1b2e" stroke="#d4af37" stroke-width="2"/>
+  </g>
+
+  <circle cx="110" cy="110" r="82" fill="none" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="110" cy="110" r="72" fill="#0d1b2e" stroke="#d4af37" stroke-width="2.5"/>
+  <circle cx="110" cy="110" r="64" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.6"/>
+
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="700"
+        letter-spacing="3.5" fill="#d4af37">
+    <textPath href="#sealCirclePath" startOffset="4%">VERIFIED &#8226; AUTHENTIC &#8226;</textPath>
+  </text>
+
+  <circle cx="110" cy="110" r="40" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+
+  <path d="M91 111 L104 124 L131 96"
+        fill="none" stroke="#d4af37" stroke-width="7"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M78 176 L110 210 L142 176 L128 168 L110 178 L92 168 Z"
+        fill="#0d1b2e" stroke="#d4af37" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Manager Login — intern.brandmakingtractor.com</title>
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="managerlogin">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="section-tight" style="min-height:70vh;display:flex;align-items:center;">
+  <div class="container" style="max-width:440px;">
+    <div class="text-center" style="margin-bottom:24px;">
+      <span class="eyebrow blue">System Access</span>
+      <h1 style="font-size:28px;">Manager Login</h1>
+      <p class="lead mx-auto">Sign in to review certificate requests and manage internship openings.</p>
+    </div>
+
+    <form id="loginForm" class="form-card">
+      <div id="formMsg" class="form-msg"></div>
+      <div class="field">
+        <label>Manager Email <span class="req">*</span></label>
+        <input type="email" id="mEmail" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label>Password <span class="req">*</span></label>
+        <input type="password" id="mPassword" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
+    </form>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+// If already logged in, go straight to dashboard.
+if(sessionStorage.getItem("bmt_manager_session")){
+  window.location.href = "manager-dashboard";
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById("formMsg");
+  const btn = document.getElementById("loginBtn");
+  const email = document.getElementById("mEmail").value.trim();
+  const password = document.getElementById("mPassword").value;
+
+  setBtnLoading(btn, true, "Signing in...");
+  const res = await apiCall("managerLogin", { email, password });
+  setBtnLoading(btn, false);
+
+  if(res.success && res.data && res.data.token){
+    sessionStorage.setItem("bmt_manager_session", JSON.stringify(res.data));
+    window.location.href = "manager-dashboard";
+  }else{
+    showMsg(msg, "error", res.error || "Invalid email or password.");
+  }
+});
+</script>
+</body>
+</html>

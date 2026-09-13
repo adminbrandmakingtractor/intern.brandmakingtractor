@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Internship Openings | intern.brandmakingtractor.com</title>
+<meta name="description" content="7 internship openings: Data Analyst, Performance Marketing, Web Dev, Graphic Design, Content, WordPress and Video Editing. 1 week training, then live client work.">
+<link rel="canonical" href="https://intern.brandmakingtractor.com/internships">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" content="7 Internship Openings | intern.brandmakingtractor.com">
+<meta property="og:description" content="7 internship openings — 1 Week Training + Direct Live Client Project Experience. Choose 4, 6 or 8 weeks.">
+<meta property="og:url" content="https://intern.brandmakingtractor.com/internships">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="7 Internship Openings | intern.brandmakingtractor.com">
+<meta name="twitter:description" content="7 internship openings across Data, Marketing, Design, Development, Content & Video.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://intern.brandmakingtractor.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Internships", "item": "https://intern.brandmakingtractor.com/internships" }
+  ]
+}
+</script>
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="internships">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container hero-inner">
+    <div class="hero-tagline">7 OPEN INTERNSHIP PROGRAMS</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);">Find the internship built for you</h1>
+    <p class="lead">Every program: <strong style="color:#fff;">1 Week Training + Direct Live Client Project Experience.</strong> Choose your duration — 4, 6 or 8 weeks.</p>
+    <div class="program-pill-row" style="margin-top:18px;" id="feeStrip"></div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="filters-bar">
+      <input type="text" id="searchInput" placeholder="Search internships, e.g. 'design' or 'marketing'">
+      <select id="deptFilter">
+        <option value="">All Departments</option>
+      </select>
+      <select id="modeFilter">
+        <option value="">All Work Modes</option>
+        <option value="Remote">Remote</option>
+        <option value="Hybrid">Hybrid</option>
+        <option value="On-site">On-site</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All Status</option>
+        <option value="Open">Open</option>
+        <option value="Closing Soon">Closing Soon</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+
+    <div id="resultCount" style="margin-bottom:18px;color:var(--gray-500);font-size:14px;"></div>
+    <div id="internshipGrid" class="grid grid-3"></div>
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <h3>No internships match your filters</h3>
+      <p>Try clearing a filter or searching a different keyword.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--white);">
+  <div class="container">
+    <div class="program-banner fade-up">
+      <div>
+        <h3>Not sure which track fits you?</h3>
+        <p>Every program follows the same 1 Week Training + Direct Live Client Project Experience structure — pick by interest, not risk.</p>
+      </div>
+      <a href="contact" class="btn btn-outline-white">Talk to Us</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+let liveData = [...INTERNSHIPS];
+
+function cardHTML(i){
+  return `
+    <div class="internship-card fade-up">
+      <span class="badge ${statusBadgeClass(i.Status)}" style="align-self:flex-start;">${i.Status}</span>
+      <div class="dept">${i.Department}</div>
+      <h3>${i.icon} ${i.Title}</h3>
+      <div class="card-duration">${renderDurationChipRow()}</div>
+      <div class="card-meta">
+        <span><strong>${i.Work_Mode}</strong></span>
+        <span>${i.Openings} Openings</span>
+      </div>
+      <div class="skill-tags">${i.Skills.slice(0,6).map(s=>`<span class="skill-tag">${s}</span>`).join("")}</div>
+      <div class="card-actions">
+        <a href="internship-detail?id=${i.Opening_ID}" class="btn btn-secondary btn-sm">View Details</a>
+        <a href="#" class="btn btn-primary btn-sm" onclick="event.preventDefault(); openApplyModal('${i.Opening_ID}');">Apply Now</a>
+      </div>
+    </div>`;
+}
+
+function renderGrid(){
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  const dept = document.getElementById("deptFilter").value;
+  const mode = document.getElementById("modeFilter").value;
+  const status = document.getElementById("statusFilter").value;
+
+  const filtered = liveData.filter(i => {
+    const matchesQ = !q || i.Title.toLowerCase().includes(q) || i.Skills.join(" ").toLowerCase().includes(q) || i.Department.toLowerCase().includes(q);
+    const matchesDept = !dept || i.Department === dept;
+    const matchesMode = !mode || i.Work_Mode === mode;
+    const matchesStatus = !status || i.Status === status;
+    return matchesQ && matchesDept && matchesMode && matchesStatus;
+  });
+
+  const grid = document.getElementById("internshipGrid");
+  const empty = document.getElementById("emptyState");
+  document.getElementById("resultCount").textContent = `Showing ${filtered.length} of ${liveData.length} internships`;
+
+  if(filtered.length === 0){
+    grid.innerHTML = "";
+    empty.style.display = "block";
+  }else{
+    empty.style.display = "none";
+    grid.innerHTML = filtered.map(cardHTML).join("");
+  }
+  refreshFadeUp();
+}
+
+function populateDepartments(){
+  const depts = [...new Set(liveData.map(i => i.Department))];
+  const sel = document.getElementById("deptFilter");
+  depts.forEach(d => {
+    const opt = document.createElement("option");
+    opt.value = d; opt.textContent = d;
+    sel.appendChild(opt);
+  });
+}
+
+async function refreshFromBackend(){
+  const res = await apiGet("getInternships");
+  if(res && res.success && Array.isArray(res.data) && res.data.length){
+    // Merge live Status/Openings from the sheet, keep rich local copy for descriptions/skills.
+    res.data.forEach(row => {
+      const local = liveData.find(i => i.Opening_ID === row.Opening_ID);
+      if(local){
+        local.Status = row.Status || local.Status;
+        local.Openings = row.Openings ?? local.Openings;
+      }
+    });
+    renderGrid();
+  }
+}
+
+function renderFeeStrip(){
+  document.getElementById("feeStrip").innerHTML = DURATIONS.map(d =>
+    `<span class="program-pill">${d.weeks} Weeks — ₹${d.fee.toLocaleString("en-IN")}</span>`
+  ).join("") + `<span class="program-pill">Coupons available at checkout</span>`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderFeeStrip();
+  populateDepartments();
+  renderGrid();
+  refreshFromBackend();
+  ["searchInput","deptFilter","modeFilter","statusFilter"].forEach(id => {
+    document.getElementById(id).addEventListener("input", renderGrid);
+    document.getElementById(id).addEventListener("change", renderGrid);
+  });
+});
+</script>
+</body>
+</html>

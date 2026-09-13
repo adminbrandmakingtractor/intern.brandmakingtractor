@@ -1,0 +1,4 @@
+# Netlify-style redirects (harmless no-op on other hosts).
+# Netlify already serves /about.html for a request to /about automatically,
+# so this file only needs to cover the custom 404 page.
+/*    /404.html   404

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /manager-login
+Disallow: /manager-dashboard
+Disallow: /thank-you
+
+Sitemap: https://intern.brandmakingtractor.com/sitemap.xml

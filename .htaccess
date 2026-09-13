@@ -1,0 +1,41 @@
+# intern.brandmakingtractor — Apache clean-URL + 404 config
+# Needed on Apache/LiteSpeed hosts (e.g. Hostinger shared hosting) so that
+# extensionless links like /about, /internships, /contact resolve to their
+# matching .html file — the same behavior Netlify/Vercel give automatically.
+# Not needed (harmless no-op) on hosts that already do this natively.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /internship-detail?id=... etc. — if the exact file/dir already exists, serve it as-is.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # /about -> /about.html (only when about.html exists)
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Custom 404 page (falls back gracefully if mod_rewrite is unavailable).
+ErrorDocument 404 /404.html
+
+# Never publicly serve dotfiles/dotfolders (.claude/, this .htaccess itself,
+# any future .env, etc.) even if the whole project folder gets uploaded as-is.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+# Never let manager-only tooling or the thank-you receipt page get indexed,
+# even if a crawler reaches them directly (belt-and-suspenders with the
+# <meta name="robots"> tags already on those pages and the Disallow rules
+# in robots.txt).
+<IfModule mod_headers.c>
+  <FilesMatch "^(manager-login|manager-dashboard|thank-you)\.html$">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+</IfModule>

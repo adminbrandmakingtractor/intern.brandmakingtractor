@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Application Submitted — intern.brandmakingtractor.com</title>
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="thankyou">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="section-tight" style="min-height:70vh;display:flex;align-items:center;">
+  <div class="container" style="max-width:640px;">
+
+    <div id="successPanel" class="result-card result-verified">
+      <div class="result-icon ok">✓</div>
+      <h2>Application Submitted Successfully</h2>
+      <p>Your Application Number:</p>
+      <p style="font-size:26px;font-weight:800;color:var(--navy-2);margin:6px 0 20px;" id="successAppId">—</p>
+
+      <div class="payment-instructions">
+        <h4>Please make the payment via UPI to <span style="color:var(--blue);" id="successUpi">—</span> and reply to the email you received on the given email address with the payment screenshot attached.</h4>
+        <p style="margin-bottom:14px;">Once the payment is confirmed, our team will take care of the application process and proceed with the next steps accordingly.</p>
+        <div class="kv"><span>Reply with screenshot to</span><span id="successTeamEmail">—</span></div>
+        <div class="kv"><span>Subject</span><span id="successSubject">—</span></div>
+        <div class="kv"><span>Final Amount</span><span id="successFinalAmount">—</span></div>
+      </div>
+
+      <a href="internships" class="btn btn-secondary" style="margin-top:20px;">Browse More Internships</a>
+      <a href="/" class="btn btn-primary" style="margin-top:20px;">Back to Home</a>
+    </div>
+
+    <div id="notFound" class="result-card" style="display:none;text-align:center;">
+      <h2>No application found</h2>
+      <p>This page is only reachable right after submitting an application.</p>
+      <a href="internships" class="btn btn-primary" style="margin-top:20px;">Browse Internships</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+const applicationId = qs("applicationId");
+if(!applicationId){
+  document.getElementById("successPanel").style.display = "none";
+  document.getElementById("notFound").style.display = "block";
+}else{
+  document.getElementById("successAppId").textContent = applicationId;
+  document.getElementById("successUpi").textContent = BRAND.upiId;
+  document.getElementById("successTeamEmail").textContent = BRAND.teamEmail;
+  document.getElementById("successSubject").textContent = `Payment Proof — ${applicationId}`;
+  const amount = qs("amount");
+  document.getElementById("successFinalAmount").textContent = amount ? `₹${Number(amount).toLocaleString("en-IN")}` : "—";
+}
+</script>
+</body>
+</html>

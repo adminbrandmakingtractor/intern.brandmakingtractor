@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify an Internship Certificate | intern.brandmakingtractor.com</title>
+<meta name="description" content="Verify the authenticity of an intern.brandmakingtractor.com internship completion certificate instantly using its Credential ID. Fast, free and public.">
+<link rel="canonical" href="https://intern.brandmakingtractor.com/verify-certificate">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" content="Verify an Internship Certificate | intern.brandmakingtractor.com">
+<meta property="og:description" content="Verify the authenticity of an intern.brandmakingtractor.com internship completion certificate instantly using its Credential ID.">
+<meta property="og:url" content="https://intern.brandmakingtractor.com/verify-certificate">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Verify Certificate — intern.brandmakingtractor.com">
+<meta name="twitter:description" content="Verify an internship certificate using its Credential ID.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="verify">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container hero-inner">
+    <div class="hero-tagline">CERTIFICATE VERIFICATION</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);">Verify a Certificate</h1>
+    <p class="lead">Enter a Credential ID to instantly confirm it was issued by intern.brandmakingtractor.com.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container" style="max-width:640px;">
+    <form id="verifyForm" class="form-card" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+      <div class="field" style="flex:1;min-width:220px;margin-bottom:0;">
+        <label>Credential ID <span class="req">*</span></label>
+        <input type="text" id="credentialId" placeholder="e.g. BMT-CRED-2026-000001" required>
+      </div>
+      <button type="submit" class="btn btn-primary" id="verifyBtn">Verify</button>
+    </form>
+
+    <div id="verifyResult" style="margin-top:28px;"></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+async function runVerification(id){
+  const resultEl = document.getElementById("verifyResult");
+  const btn = document.getElementById("verifyBtn");
+  setBtnLoading(btn, true, "Verifying...");
+  resultEl.innerHTML = "";
+  const res = await apiGet("verifyCertificate", { credentialId: id });
+  setBtnLoading(btn, false);
+
+  if(res.success && res.data && res.data.valid){
+    const c = res.data;
+    pushConversionEvent("certificate_verification", { credential_id: c.credentialId, result: "valid" });
+    resultEl.innerHTML = `
+      <div class="result-card result-verified fade-up in">
+        <div class="result-icon ok">✓</div>
+        <h2>✓ CERTIFICATE VERIFIED</h2>
+        <p>This is a valid certificate issued by intern.brandmakingtractor.com.</p>
+        <table class="result-table">
+          <tr><td>Name</td><td>${escapeHtml(c.name)}</td></tr>
+          <tr><td>Internship</td><td>${escapeHtml(c.internshipTitle)}</td></tr>
+          <tr><td>Duration</td><td>${escapeHtml(c.duration)}</td></tr>
+          <tr><td>Start Date</td><td>${formatDate(c.startDate)}</td></tr>
+          <tr><td>Completion Date</td><td>${formatDate(c.completionDate)}</td></tr>
+          <tr><td>Certificate Issue Date</td><td>${formatDate(c.issueDate)}</td></tr>
+          <tr><td>Certificate Valid Until</td><td>${formatDate(c.validUntil)}</td></tr>
+          <tr><td>Credential ID</td><td>${escapeHtml(c.credentialId)}</td></tr>
+          <tr><td>Status</td><td><span class="badge ${c.status === 'VALID' ? 'badge-open' : 'badge-closed'}">${c.status || "VALID"}</span></td></tr>
+        </table>
+      </div>`;
+  }else{
+    pushConversionEvent("certificate_verification", { credential_id: id, result: "invalid" });
+    resultEl.innerHTML = `
+      <div class="result-card result-invalid fade-up in">
+        <div class="result-icon bad">✕</div>
+        <h2>Certificate Not Found</h2>
+        <p>${res.error || "We couldn't verify a certificate with that Credential ID. Please double-check and try again."}</p>
+      </div>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const presetId = qs("credentialId") || qs("id");
+  if(presetId){
+    document.getElementById("credentialId").value = presetId;
+    runVerification(presetId);
+  }
+});
+
+document.getElementById("verifyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("credentialId").value.trim();
+  if(!id) return;
+  runVerification(id);
+});
+</script>
+</body>
+</html>

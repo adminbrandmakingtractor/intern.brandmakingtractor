@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Your Certificate | intern.brandmakingtractor.com</title>
+<meta name="description" content="Completed your internship at intern.brandmakingtractor.com? Submit your Application Number to request your verified internship completion certificate.">
+<link rel="canonical" href="https://intern.brandmakingtractor.com/certificate-request">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" content="Request Your Certificate | intern.brandmakingtractor.com">
+<meta property="og:description" content="Completed your internship? Submit your Application Number to request your verified completion certificate.">
+<meta property="og:url" content="https://intern.brandmakingtractor.com/certificate-request">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Request Your Certificate | intern.brandmakingtractor.com">
+<meta name="twitter:description" content="Submit your Application Number to request your verified certificate.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="certrequest">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container hero-inner">
+    <div class="hero-tagline">CERTIFICATE REQUEST</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);">Request Your Internship Certificate</h1>
+    <p class="lead">Completed your internship program? Submit a request below and your Program Manager will review and approve it.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container" style="max-width:720px;">
+
+    <div class="timeline" style="background:var(--white);padding:28px 32px 8px;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);margin-bottom:32px;">
+      <div class="timeline-item done"><span class="wk">Step 1</span><h4>Certificate Request Submitted</h4><p>You submit your Application ID — request status is set to Pending.</p></div>
+      <div class="timeline-item"><span class="wk">Step 2</span><h4>Manager Review</h4><p>Your Program Manager reviews your completed live client project.</p></div>
+      <div class="timeline-item"><span class="wk">Step 3</span><h4>Certificate Issued</h4><p>Once approved, your certificate + Credential ID is generated and emailed to you.</p></div>
+    </div>
+
+    <div id="successPanel" class="result-card result-verified" style="display:none;">
+      <div class="result-icon ok">✓</div>
+      <h2>Request Submitted!</h2>
+      <p>Your certificate request has been sent for manager approval. You'll receive an email once it's issued.</p>
+      <table class="result-table">
+        <tr><td>Application Number</td><td id="reqAppId">—</td></tr>
+        <tr><td>Status</td><td><span class="status-pill status-pending">Pending Approval</span></td></tr>
+      </table>
+      <a href="/" class="btn btn-primary" style="margin-top:20px;">Back to Home</a>
+    </div>
+
+    <form id="certRequestForm" class="form-card">
+      <div id="formMsg" class="form-msg"></div>
+      <div class="field hp-field" aria-hidden="true"><label for="crWebsite">Leave blank</label><input type="text" id="crWebsite" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="form-grid">
+        <div class="field full"><label>Full Name <span class="req">*</span></label><input type="text" id="fullName" required></div>
+        <div class="field full"><label>Application Number <span class="req">*</span></label>
+          <input type="text" id="applicationId" placeholder="e.g. BMT-APP-2026-000001" required>
+          <small>This was emailed to you when your application was submitted.</small>
+        </div>
+        <div class="field full"><label>Anything your manager should know? (optional)</label><textarea id="notes" placeholder="e.g. link to final deliverables"></textarea></div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit Certificate Request</button>
+    </form>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+document.getElementById("certRequestForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById("formMsg");
+  const btn = document.getElementById("submitBtn");
+
+  // Honeypot: real visitors never see or fill this field — a filled value means a bot.
+  if(document.getElementById("crWebsite").value.trim()){
+    return;
+  }
+
+  const payload = {
+    fullName: document.getElementById("fullName").value.trim(),
+    applicationId: document.getElementById("applicationId").value.trim(),
+    notes: document.getElementById("notes").value.trim()
+  };
+  setBtnLoading(btn, true, "Submitting...");
+  const res = await apiCall("requestCertificate", payload);
+  setBtnLoading(btn, false);
+
+  if(res.success){
+    pushConversionEvent("certificate_requested", {
+      application_id: payload.applicationId,
+      certificate_id: res.data.certificateId
+    });
+    document.getElementById("certRequestForm").style.display = "none";
+    document.getElementById("successPanel").style.display = "block";
+    document.getElementById("reqAppId").textContent = payload.applicationId;
+    document.getElementById("successPanel").scrollIntoView({behavior:"smooth"});
+  }else{
+    showMsg(msg, "error", res.error || "We couldn't submit your request. Please check your details and try again.");
+  }
+});
+</script>
+</body>
+</html>

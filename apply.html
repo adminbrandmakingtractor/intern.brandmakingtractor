@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply for an Internship | intern.brandmakingtractor.com</title>
+<meta name="description" content="Apply for a 4, 6 or 8 week internship at intern.brandmakingtractor.com. 1 week training, then direct live client project work. Pick a track and apply in minutes.">
+<link rel="canonical" href="https://intern.brandmakingtractor.com/apply">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" content="Apply for an Internship | intern.brandmakingtractor.com">
+<meta property="og:description" content="Apply for a 4, 6 or 8 week internship — 1 Week Training + Direct Live Client Project Experience.">
+<meta property="og:url" content="https://intern.brandmakingtractor.com/apply">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apply for an Internship — intern.brandmakingtractor.com">
+<meta name="twitter:description" content="Pick your track, choose a duration and apply in minutes.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="apply">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:56px 0;">
+  <div class="container hero-inner">
+    <div class="hero-tagline">APPLICATION FORM</div>
+    <h1 id="applyHeading" style="font-size:clamp(26px,4vw,38px);">Apply for an Internship</h1>
+    <p class="lead">Choose your internship, pick a duration, and apply a coupon if you have one — it takes about 3 minutes.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container" style="max-width:900px;">
+
+    <!-- ============ APPLICATION FORM ============ -->
+    <form id="applyForm" class="form-card">
+      <div id="formMsg" class="form-msg"></div>
+      <div class="field hp-field" aria-hidden="true"><label for="applyWebsite">Leave blank</label><input type="text" id="applyWebsite" name="website" tabindex="-1" autocomplete="off"></div>
+
+      <div class="field full">
+        <label>Selected Internship <span class="req">*</span></label>
+        <select id="selectedInternship" required></select>
+      </div>
+
+      <h3 style="margin:10px 0 4px;">Choose Your Internship Duration <span class="req">*</span></h3>
+      <p style="font-size:13.5px;color:var(--gray-500);margin-bottom:6px;">Every duration follows the same learning structure: 1 Week Structured Training → Directly into Live Client Project.</p>
+      <div class="duration-grid" id="durationGrid"></div>
+      <p style="font-size:12.5px;color:var(--gray-500);margin:-12px 0 14px;">All durations begin with 1 Week of Structured Training, followed directly by Live Client Project work.</p>
+      <div id="durationStructureNote" style="display:none;background:var(--green-pale);border-radius:10px;padding:12px 16px;margin-bottom:22px;font-size:13.5px;font-weight:600;color:var(--green);"></div>
+
+      <h3 style="margin-bottom:16px;">Personal Details</h3>
+      <div class="form-grid">
+        <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" id="fullName" autocomplete="name" required></div>
+        <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="email" autocomplete="email" required></div>
+        <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" id="phone" autocomplete="tel" required></div>
+        <div class="field"><label>City <span class="req">*</span></label><input type="text" id="city" autocomplete="address-level2" required></div>
+      </div>
+
+      <h3 style="margin:10px 0 16px;">Education</h3>
+      <div class="form-grid">
+        <div class="field"><label>College / University <span class="req">*</span></label><input type="text" id="college" required></div>
+        <div class="field"><label>Course / Degree <span class="req">*</span></label><input type="text" id="course" required></div>
+        <div class="field"><label>Year / Semester <span class="req">*</span></label><input type="text" id="year" placeholder="e.g. 3rd Year / 6th Semester" required></div>
+        <div class="field"><label>Availability <span class="req">*</span></label>
+          <select id="availability" required>
+            <option value="">Select availability</option>
+            <option>Immediately</option>
+            <option>Within 1 Week</option>
+            <option>Within 2 Weeks</option>
+            <option>Within 1 Month</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 style="margin:10px 0 16px;">Skills &amp; Portfolio</h3>
+      <div class="form-grid">
+        <div class="field full"><label>Skills <span class="req">*</span></label><input type="text" id="skills" placeholder="Comma separated, e.g. Excel, Canva, HTML" required></div>
+        <div class="field"><label>Portfolio URL</label><input type="url" id="portfolioUrl" autocomplete="url" placeholder="https://..."></div>
+        <div class="field"><label>LinkedIn URL</label><input type="url" id="linkedinUrl" autocomplete="url" placeholder="https://linkedin.com/in/..."></div>
+        <div class="field full"><label>Resume Link</label>
+          <input type="url" id="resumeUrl" autocomplete="url" placeholder="https://drive.google.com/... (shareable link)">
+          <small>Upload your resume to Google Drive / Dropbox, set sharing to "Anyone with the link", and paste the URL here.</small>
+        </div>
+      </div>
+
+      <h3 style="margin:10px 0 16px;">A Little About You</h3>
+      <div class="field full">
+        <label>Why do you want to join this internship? <span class="req">*</span></label>
+        <textarea id="whyJoin" required placeholder="Tell us in a few sentences..."></textarea>
+      </div>
+
+      <!-- ============ COUPON ============ -->
+      <div class="coupon-box">
+        <h3 style="margin-bottom:10px;">Have a Coupon Code?</h3>
+        <div class="coupon-row">
+          <input type="text" id="couponCode" placeholder="Enter Coupon Code" style="text-transform:uppercase;">
+          <button type="button" class="btn btn-secondary" id="applyCouponBtn">Apply Coupon</button>
+        </div>
+        <div id="couponMsg" class="coupon-msg"></div>
+      </div>
+
+      <!-- ============ APPLICATION SUMMARY ============ -->
+      <div class="summary-box" id="summaryBox" style="display:none;">
+        <h3>Application Summary</h3>
+        <div class="summary-row"><span>Name</span><span id="sumName">—</span></div>
+        <div class="summary-row"><span>Internship</span><span id="sumInternship">—</span></div>
+        <div class="summary-row"><span>Duration</span><span id="sumDuration">—</span></div>
+        <div class="summary-row"><span>Structure</span><span id="sumStructure">—</span></div>
+        <div class="summary-row"><span>Original Fee</span><span id="sumOriginal">—</span></div>
+        <div class="summary-row"><span>Coupon</span><span id="sumCoupon">None</span></div>
+        <div class="summary-row discount"><span>Discount</span><span id="sumDiscountPct">0%</span></div>
+        <div class="summary-row discount"><span>Discount Amount</span><span id="sumDiscountAmt">₹0</span></div>
+        <div class="summary-row total"><span>FINAL AMOUNT</span><span id="sumFinal">₹0</span></div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" id="submitBtn" style="margin-top:10px;">Submit Application</button>
+      <p style="text-align:center;font-size:12.5px;color:var(--gray-500);margin-top:14px;">By submitting, you agree to be contacted by intern.brandmakingtractor.com regarding this application.</p>
+    </form>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+let selectedDuration = null;   // { weeks, fee }
+let appliedCoupon = null;      // { code, discountPercentage, discountAmount, finalAmount, originalFee }
+
+function populateSelect(){
+  const sel = document.getElementById("selectedInternship");
+  sel.innerHTML = `<option value="">Select an internship</option>` +
+    INTERNSHIPS.map(i => `<option value="${i.Opening_ID}">${escapeHtml(i.Title)}</option>`).join("");
+
+  const presetId = qs("id");
+  if(presetId && getInternshipById(presetId)){
+    sel.value = presetId;
+    document.getElementById("applyHeading").textContent = `Apply — ${getInternshipById(presetId).Title}`;
+  }
+  sel.addEventListener("change", updateSummary);
+}
+
+function renderDurationOptions(){
+  const grid = document.getElementById("durationGrid");
+  grid.innerHTML = DURATIONS.map(d => {
+    const s = getDurationStructure(d.weeks);
+    return `
+    <label class="duration-option" data-weeks="${d.weeks}">
+      <input type="radio" name="duration" value="${d.weeks}">
+      <div class="weeks">${d.weeks} Weeks</div>
+      <div class="fee">₹${d.fee.toLocaleString("en-IN")}</div>
+      <div style="font-size:11.5px;color:var(--gray-500);margin-top:6px;">1 Wk Training + ${s.liveWeeks} Wks Live Project</div>
+    </label>`;
+  }).join("");
+
+  grid.querySelectorAll(".duration-option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      const weeks = Number(opt.dataset.weeks);
+      selectedDuration = DURATIONS.find(d => d.weeks === weeks);
+      grid.querySelectorAll(".duration-option").forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
+      opt.querySelector("input").checked = true;
+
+      const structureNote = document.getElementById("durationStructureNote");
+      const s = getDurationStructure(weeks);
+      structureNote.style.display = "block";
+      structureNote.textContent = `✅ You selected ${weeks} Weeks = ${s.label}.`;
+
+      // Duration changed — any applied coupon's discount amount depended on
+      // the old fee, so it must be re-validated against the new one.
+      if(appliedCoupon){
+        appliedCoupon = null;
+        document.getElementById("couponMsg").className = "coupon-msg";
+        document.getElementById("couponMsg").textContent = "Duration changed — please re-apply your coupon.";
+      }
+      updateSummary();
+    });
+  });
+}
+
+document.getElementById("applyCouponBtn").addEventListener("click", async () => {
+  const codeInput = document.getElementById("couponCode");
+  const msgEl = document.getElementById("couponMsg");
+  const code = codeInput.value.trim();
+
+  if(!selectedDuration){
+    msgEl.className = "coupon-msg error";
+    msgEl.textContent = "Please choose an internship duration first.";
+    return;
+  }
+  if(!code){
+    msgEl.className = "coupon-msg error";
+    msgEl.textContent = "Please enter a coupon code.";
+    return;
+  }
+
+  const btn = document.getElementById("applyCouponBtn");
+  setBtnLoading(btn, true, "Checking...");
+  const res = await apiCall("validateCoupon", { couponCode: code, duration: selectedDuration.weeks });
+  setBtnLoading(btn, false);
+
+  if(res.success && res.data && res.data.valid){
+    appliedCoupon = res.data;
+    msgEl.className = "coupon-msg success";
+    msgEl.textContent = `Coupon "${res.data.code}" applied — ${res.data.discountPercentage}% off!`;
+  }else{
+    appliedCoupon = null;
+    msgEl.className = "coupon-msg error";
+    msgEl.textContent = res.error || "Invalid or expired coupon code.";
+  }
+  updateSummary();
+});
+
+function updateSummary(){
+  const box = document.getElementById("summaryBox");
+  const internship = getInternshipById(document.getElementById("selectedInternship").value);
+
+  if(!selectedDuration){
+    box.style.display = "none";
+    return;
+  }
+  box.style.display = "block";
+
+  const originalFee = selectedDuration.fee;
+  const discountPercentage = appliedCoupon ? appliedCoupon.discountPercentage : 0;
+  const discountAmount = appliedCoupon ? appliedCoupon.discountAmount : 0;
+  const finalAmount = appliedCoupon ? appliedCoupon.finalAmount : originalFee;
+
+  document.getElementById("sumStructure").textContent = getDurationStructure(selectedDuration.weeks).label;
+  document.getElementById("sumName").textContent = document.getElementById("fullName").value.trim() || "—";
+  document.getElementById("sumInternship").textContent = internship ? internship.Title : "—";
+  document.getElementById("sumDuration").textContent = `${selectedDuration.weeks} Weeks`;
+  document.getElementById("sumOriginal").textContent = `₹${originalFee.toLocaleString("en-IN")}`;
+  document.getElementById("sumCoupon").textContent = appliedCoupon ? appliedCoupon.code : "None";
+  document.getElementById("sumDiscountPct").textContent = `${discountPercentage}%`;
+  document.getElementById("sumDiscountAmt").textContent = `₹${discountAmount.toLocaleString("en-IN")}`;
+  const finalEl = document.getElementById("sumFinal");
+  const newFinalText = `₹${finalAmount.toLocaleString("en-IN")}`;
+  if(finalEl.textContent !== newFinalText){
+    finalEl.textContent = newFinalText;
+    finalEl.classList.remove("pulse-update");
+    void finalEl.offsetWidth; // restart the animation even if it's already applied
+    finalEl.classList.add("pulse-update");
+  }
+}
+
+document.getElementById("fullName").addEventListener("input", updateSummary);
+
+document.getElementById("applyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById("formMsg");
+  const btn = document.getElementById("submitBtn");
+  const internship = getInternshipById(document.getElementById("selectedInternship").value);
+
+  // Honeypot: real visitors never see or fill this field — a filled value means a bot.
+  if(document.getElementById("applyWebsite").value.trim()){
+    return;
+  }
+
+  if(!internship){
+    showMsg(msg, "error", "Please select an internship.");
+    return;
+  }
+  if(!selectedDuration){
+    showMsg(msg, "error", "Please choose an internship duration.");
+    return;
+  }
+
+  const payload = {
+    fullName: document.getElementById("fullName").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    college: document.getElementById("college").value.trim(),
+    course: document.getElementById("course").value.trim(),
+    year: document.getElementById("year").value.trim(),
+    selectedInternshipId: internship.Opening_ID,
+    duration: selectedDuration.weeks,
+    skills: document.getElementById("skills").value.trim(),
+    portfolioUrl: document.getElementById("portfolioUrl").value.trim(),
+    linkedinUrl: document.getElementById("linkedinUrl").value.trim(),
+    resumeUrl: document.getElementById("resumeUrl").value.trim(),
+    whyJoin: document.getElementById("whyJoin").value.trim(),
+    availability: document.getElementById("availability").value,
+    couponCode: appliedCoupon ? appliedCoupon.code : ""
+  };
+
+  setBtnLoading(btn, true, "Submitting...");
+  msg.className = "form-msg";
+
+  const res = await apiCall("submitApplication", payload);
+
+  setBtnLoading(btn, false);
+
+  if(res.success){
+    pushConversionEvent("application_submitted", {
+      application_id: res.data.applicationId,
+      internship_id: internship.Opening_ID,
+      internship_title: internship.Title,
+      duration_weeks: selectedDuration.weeks,
+      coupon_code: appliedCoupon ? appliedCoupon.code : "",
+      value: res.data.finalAmount,
+      currency: "INR"
+    });
+    window.location.href = `thank-you?applicationId=${encodeURIComponent(res.data.applicationId)}&amount=${encodeURIComponent(res.data.finalAmount)}`;
+    return;
+  }else{
+    showMsg(msg, "error", res.error || "Something went wrong. Please try again.");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  populateSelect();
+  renderDurationOptions();
+});
+</script>
+</body>
+</html>

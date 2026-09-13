@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | intern.brandmakingtractor.com Internships</title>
+<meta name="description" content="Get in touch with intern.brandmakingtractor.com for internship queries, application status, certificate checks or partnerships. We reply within 1-2 business days.">
+<link rel="canonical" href="https://intern.brandmakingtractor.com/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" content="Contact Us | intern.brandmakingtractor.com Internships">
+<meta property="og:description" content="Get in touch with intern.brandmakingtractor.com for internship queries, partnerships or support.">
+<meta property="og:url" content="https://intern.brandmakingtractor.com/contact">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contact Us — intern.brandmakingtractor.com">
+<meta name="twitter:description" content="Get in touch for internship queries, partnerships or support.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container hero-inner">
+    <div class="hero-tagline">CONTACT US</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);">Questions about an internship?</h1>
+    <p class="lead">Reach out and our team will get back to you within 1–2 business days.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info-card fade-up">
+        <h3>Get in Touch</h3>
+        <div class="contact-info-row"><div class="ico">✉️</div><div><strong>Email</strong><div id="contactEmail" style="color:rgba(255,255,255,.8);"></div></div></div>
+        <div class="contact-info-row"><div class="ico">📞</div><div><strong>Phone</strong><div id="contactPhone" style="color:rgba(255,255,255,.8);"></div></div></div>
+        <div class="contact-info-row"><div class="ico">📍</div><div><strong>Address</strong><div id="contactAddress" style="color:rgba(255,255,255,.8);"></div></div></div>
+        <div class="contact-info-row"><div class="ico">🕒</div><div><strong>Hours</strong><div style="color:rgba(255,255,255,.8);">Mon – Sat, 10 AM – 7 PM IST</div></div></div>
+        <p style="margin-top:24px;color:rgba(255,255,255,.65);font-size:13.5px;">1 Week Training + Direct Live Client Project Experience. Learn • Create • Grow.</p>
+      </div>
+
+      <form id="contactForm" class="form-card fade-up">
+        <div id="formMsg" class="form-msg"></div>
+        <h3 style="margin-bottom:18px;">Send Us a Message</h3>
+        <div class="field hp-field" aria-hidden="true"><label for="cWebsite">Leave blank</label><input type="text" id="cWebsite" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="form-grid">
+          <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" id="cName" autocomplete="name" required></div>
+          <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="cEmail" autocomplete="email" required></div>
+          <div class="field"><label>Phone</label><input type="tel" id="cPhone" autocomplete="tel"></div>
+          <div class="field"><label>Subject <span class="req">*</span></label>
+            <select id="cSubject" required>
+              <option value="">Select a subject</option>
+              <option>Internship Enquiry</option>
+              <option>Application Status</option>
+              <option>Certificate / Verification</option>
+              <option>Partnership / Client Enquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field full"><label>Message <span class="req">*</span></label><textarea id="cMessage" required placeholder="How can we help?"></textarea></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="cSubmitBtn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("contactEmail").innerHTML = `<a href="mailto:${BRAND.supportEmail}" style="color:inherit;text-decoration:underline;">${BRAND.supportEmail}</a>`;
+  document.getElementById("contactPhone").innerHTML = `<a href="tel:${BRAND.supportPhone.replace(/\s+/g,"")}" style="color:inherit;text-decoration:underline;">${BRAND.supportPhone}</a>`;
+  document.getElementById("contactAddress").textContent = BRAND.address;
+});
+
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById("formMsg");
+  const btn = document.getElementById("cSubmitBtn");
+
+  // Honeypot: real visitors never see or fill this field — a filled value means a bot.
+  if(document.getElementById("cWebsite").value.trim()){
+    return;
+  }
+
+  const payload = {
+    fullName: document.getElementById("cName").value.trim(),
+    email: document.getElementById("cEmail").value.trim(),
+    phone: document.getElementById("cPhone").value.trim(),
+    subject: document.getElementById("cSubject").value,
+    message: document.getElementById("cMessage").value.trim()
+  };
+  setBtnLoading(btn, true, "Sending...");
+  const res = await apiCall("submitContactQuery", payload);
+  setBtnLoading(btn, false);
+  if(res.success){
+    pushConversionEvent("contact_submitted", { subject: payload.subject });
+    showMsg(msg, "success", "Thanks! Your message has been received — we'll get back to you soon.");
+    document.getElementById("contactForm").reset();
+  }else{
+    showMsg(msg, "error", res.error || "Something went wrong. Please try again.");
+  }
+});
+</script>
+</body>
+</html>

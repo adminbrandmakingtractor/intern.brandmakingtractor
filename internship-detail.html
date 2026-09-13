@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Consent Mode default (must be set before GTM loads) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQZJQPQM');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Internship Details | intern.brandmakingtractor.com</title>
+<meta name="description" id="pageDesc" content="Explore internship openings at intern.brandmakingtractor.com — 1 week training, then real live client project work.">
+<link rel="canonical" id="pageCanonical" href="https://intern.brandmakingtractor.com/internships">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="intern.brandmakingtractor.com">
+<meta property="og:title" id="pageOgTitle" content="Internship Details | intern.brandmakingtractor.com">
+<meta property="og:description" id="pageOgDesc" content="Explore internship openings at intern.brandmakingtractor.com.">
+<meta property="og:url" id="pageOgUrl" content="https://intern.brandmakingtractor.com/internships">
+<meta property="og:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" id="pageTwTitle" content="Internship Details — intern.brandmakingtractor.com">
+<meta name="twitter:description" id="pageTwDesc" content="Explore internship openings at intern.brandmakingtractor.com.">
+<meta name="twitter:image" content="https://intern.brandmakingtractor.com/assets/img/logo.png">
+<script type="application/ld+json" id="breadcrumbSchema">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://intern.brandmakingtractor.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Internships", "item": "https://intern.brandmakingtractor.com/internships" }
+  ]
+}
+</script>
+<link rel="icon" href="assets/img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="theme-color" content="#0d1b2e">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="internships">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQZJQPQM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="site-header"></div>
+
+<div id="detailContent"></div>
+
+<div id="notFound" class="container" style="display:none;padding:80px 24px;text-align:center;">
+  <h2>Internship not found</h2>
+  <p>This internship opening may have been removed or the link is incorrect.</p>
+  <a href="internships" class="btn btn-primary">Back to Internships</a>
+</div>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+// A couple of internship titles are long enough that "<title> | intern.brandmakingtractor.com"
+// would run past ~60 characters (the practical limit before Google truncates it in
+// search results) — shortened only for the <title>/OG/Twitter tags; the on-page H1
+// and everything else still shows the full official track name.
+const SEO_TITLE_OVERRIDES = {
+  "INT-WD-001": "Website Development Internship",
+  "INT-WP-001": "WordPress Development Internship"
+};
+
+// Meta descriptions should stay under ~157 characters (Google's soft cutoff) —
+// truncates at the last whole word instead of mid-word.
+function truncateForMeta(text, maxLen){
+  if(!text || text.length <= maxLen) return text || "";
+  const cut = text.slice(0, maxLen);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trim() + "…";
+}
+
+function render(){
+  const id = qs("id");
+  const item = getInternshipById(id);
+  if(!item){
+    document.getElementById("notFound").style.display = "block";
+    return;
+  }
+  pushConversionEvent("internship_view", { internship_id: item.Opening_ID, internship_title: item.Title, department: item.Department });
+  const seoTitle = SEO_TITLE_OVERRIDES[item.Opening_ID] || item.Title;
+  const seoDesc = truncateForMeta(item.Description, 157);
+  document.getElementById("pageTitle").textContent = `${seoTitle} | intern.brandmakingtractor.com`;
+  document.getElementById("pageDesc").setAttribute("content", seoDesc);
+  const detailUrl = `https://intern.brandmakingtractor.com/internship-detail?id=${item.Opening_ID}`;
+  document.getElementById("pageCanonical").setAttribute("href", detailUrl);
+  document.getElementById("pageOgTitle").setAttribute("content", `${seoTitle} | intern.brandmakingtractor.com`);
+  document.getElementById("pageOgDesc").setAttribute("content", seoDesc);
+  document.getElementById("pageOgUrl").setAttribute("content", detailUrl);
+  document.getElementById("pageTwTitle").setAttribute("content", `${seoTitle} | intern.brandmakingtractor.com`);
+  document.getElementById("pageTwDesc").setAttribute("content", seoDesc);
+  document.getElementById("breadcrumbSchema").textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://intern.brandmakingtractor.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Internships", "item": "https://intern.brandmakingtractor.com/internships" },
+      { "@type": "ListItem", "position": 3, "name": item.Title, "item": detailUrl }
+    ]
+  });
+
+  document.getElementById("detailContent").innerHTML = `
+    <section class="detail-hero">
+      <div class="container">
+        <a href="internships" style="color:rgba(255,255,255,.7);font-size:14px;">&larr; Back to all internships</a>
+        <div class="dept" style="margin-top:16px;">${item.Department}</div>
+        <h1>${item.icon} ${item.Title}</h1>
+        <p class="lead" style="color:rgba(255,255,255,.82);">${item.Description}</p>
+        <div class="program-pill-row" style="margin-top:20px;">
+          <span class="program-pill">1 Week Training + Direct Live Client Project Experience</span>
+          <span class="program-pill">4 / 6 / 8 Weeks Available</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block fade-up" id="durationBlock">
+              ${renderDurationStructureBlock()}
+            </div>
+
+            <div class="detail-block fade-up">
+              <h2>What You'll Learn</h2>
+              <ul>${item.What_You_Will_Learn.map(x => `<li>${x}</li>`).join("")}</ul>
+            </div>
+
+            <div class="detail-block fade-up">
+              <h2>Responsibilities</h2>
+              <ul>${item.Responsibilities.map(x => `<li>${x}</li>`).join("")}</ul>
+            </div>
+
+            <div class="detail-block fade-up">
+              <h2>Who Should Apply</h2>
+              <p style="margin:0;">${item.Who_Should_Apply}</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="sidebar-card fade-up">
+              <h3 style="margin-bottom:16px;">Internship Overview</h3>
+              <div class="sidebar-row"><span>Department</span><span>${item.Department}</span></div>
+              <div class="sidebar-row"><span>Structure</span><span>1 Wk Training + Live Project</span></div>
+              <div class="sidebar-row"><span>Duration Options</span><span>4 / 6 / 8 Weeks</span></div>
+              <div class="sidebar-row"><span>Fee From</span><span>₹1,500</span></div>
+              <div class="sidebar-row"><span>Work Mode</span><span>${item.Work_Mode}</span></div>
+              <div class="sidebar-row"><span>Openings</span><span>${item.Openings}</span></div>
+              <div class="sidebar-row"><span>Status</span><span><span class="badge ${statusBadgeClass(item.Status)}">${item.Status}</span></span></div>
+              <div class="skill-tags" style="margin:16px 0;">${item.Skills.map(s=>`<span class="skill-tag">${s}</span>`).join("")}</div>
+              <a href="#" class="btn btn-primary btn-block" onclick="event.preventDefault(); openApplyModal('${item.Opening_ID}');">Apply Now</a>
+              <a href="#durationBlock" class="btn btn-ghost btn-block" style="margin-top:10px;">See Full Duration &amp; Fee Table</a>
+            </div>
+
+            <div class="sidebar-card fade-up" style="position:static;">
+              <h3 style="margin-bottom:12px;">Certificate &amp; Recognition</h3>
+              <p style="font-size:13.5px;margin-bottom:8px;">🎓 Certificate of Completion for every intern.</p>
+              <p style="font-size:13.5px;margin-bottom:0;">🌟 Recommendation Letter for exceptional performers — not guaranteed for everyone.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+  refreshFadeUp();
+}
+document.addEventListener("DOMContentLoaded", render);
+</script>
+</body>
+</html>

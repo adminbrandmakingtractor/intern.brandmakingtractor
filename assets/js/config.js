@@ -15,7 +15,7 @@ const BRAND = {
   // Payment-proof replies go here. Keep this in sync with the Supabase Edge Function's TEAM_EMAIL constant.
   teamEmail: "internship@brandmakingtractor.com",
   // Keep in sync with the Supabase Edge Function's UPI_ID constant.
-  upiId: "tabishejaz2267-3@okaxis",
+  upiId: "ramprasath03052004@okicici",
   supportPhone: "+91 97917 18488",
   address: "Brand Making Tractor, Bengaluru, India",
   social: {

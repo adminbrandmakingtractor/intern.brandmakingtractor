@@ -16,7 +16,7 @@ import { PDFDocument, StandardFonts, rgb } from "https://esm.sh/pdf-lib@1.17.1";
 const BRAND_NAME = "intern.brandmakingtractor.com";
 const BRAND_TAGLINE = "LEARN • CREATE • GROW";
 const TEAM_EMAIL = "internship@brandmakingtractor.com";
-const UPI_ID = "tabishejaz2267-3@okaxis";
+const UPI_ID = "ramprasath03052004@okicici";
 const DURATION_FEES: Record<string, number> = { "4": 1500, "6": 2000, "8": 3000 };
 const CERTIFICATE_VALID_YEARS = 2;
 const MANAGER_SESSION_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours

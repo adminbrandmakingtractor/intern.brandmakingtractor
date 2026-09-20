@@ -32,7 +32,7 @@ const TEAM_EMAIL = "internships@brandmakingtractor.com";
 
 // UPI ID applicants pay the internship fee to. Shown on the confirmation
 // email; applicants reply to that email with their payment screenshot.
-const UPI_ID = "tabishejaz2267-3@okaxis";
+const UPI_ID = "ramprasath03052004@okicici";
 
 // Authoritative fee table — NEVER trust a fee/amount sent from the browser.
 // Every price shown on the site must always be recomputed from this map.

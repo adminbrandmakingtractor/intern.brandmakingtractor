@@ -1,0 +1,36 @@
+# intern.brandmakingtractor.com
+
+> Practical internship program by Brand Making Tractor (Bengaluru, India). Every internship starts with 1 week of structured, guided training, followed by practical assignments and live client project work under manager/team supervision. Durations: 4, 6 or 8 weeks. Interns who meet the program requirements receive an internship certificate with a unique certificate ID that can be verified online.
+
+## Key facts
+
+- Organizer: Brand Making Tractor (https://brandmakingtractor.com/) — digital, creative and technology-focused services company
+- Program website: https://intern.brandmakingtractor.com/
+- Structure: 1 week guided training + practical / live client project work for the rest of the program
+- Durations and fees: 4 weeks — ₹1,500; 6 weeks — ₹2,000; 8 weeks — ₹3,000
+- Work mode: Remote (Performance Marketing track is Hybrid)
+- Supervision: program manager and the responsible team for each track
+- Certificate: issued after successfully meeting the program requirements; includes a unique certificate ID and QR code
+- Verification: https://intern.brandmakingtractor.com/verify-certificate (enter the certificate ID)
+- Contact: internship@brandmakingtractor.com, +91 97917 18488
+
+## Internship tracks
+
+- [Data Analyst Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-DA-001): data cleaning, Excel/Google Sheets, SQL, Power BI / Looker Studio dashboards
+- [Performance Marketing Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-PM-001): Google Ads, Meta Ads, audience targeting, conversion tracking
+- [Website Development Internship — Custom Coded](https://intern.brandmakingtractor.com/internship-detail?id=INT-WD-001): HTML, CSS, JavaScript, responsive sites, Git
+- [Graphic Designing Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-GD-001): social media and ad creatives, typography, brand identity
+- [Content Creation Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-CC-001): copywriting, SEO content, content strategy and calendars
+- [WordPress Website Development Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-WP-001): WordPress, page builders, themes and plugins, basic SEO
+- [Video Editing Internship](https://intern.brandmakingtractor.com/internship-detail?id=INT-VE-001): short-form video, reels, captions, transitions, audio
+
+## Pages
+
+- [Home](https://intern.brandmakingtractor.com/): program overview, sample certificate, FAQ
+- [All internships](https://intern.brandmakingtractor.com/internships)
+- [Apply](https://intern.brandmakingtractor.com/apply)
+- [About](https://intern.brandmakingtractor.com/about)
+- [Contact](https://intern.brandmakingtractor.com/contact)
+- [Verify a certificate](https://intern.brandmakingtractor.com/verify-certificate)
+- [Request a certificate](https://intern.brandmakingtractor.com/certificate-request)
+- [Privacy policy](https://intern.brandmakingtractor.com/privacy-policy)

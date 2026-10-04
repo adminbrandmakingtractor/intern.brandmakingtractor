@@ -806,7 +806,7 @@ section{padding:80px 0;}
 
 /* Sample certificate showcase */
 .cert-showcase{background:linear-gradient(180deg,var(--off-white) 0%,#eef4f0 100%);}
-.cert-frame{position:relative;max-width:980px;margin:0 auto;}
+.cert-frame{position:relative;max-width:720px;margin:0 auto;}
 .cert-zoom{
   display:block;width:100%;padding:0;border:none;background:none;cursor:zoom-in;
   border-radius:10px;box-shadow:0 30px 60px -20px rgba(13,27,46,.35),0 0 0 1px rgba(13,27,46,.06);
@@ -828,7 +828,7 @@ section{padding:80px 0;}
 .cert-ctas{justify-content:center;margin-top:26px;}
 
 /* Large preview modal */
-.cert-modal-card{position:relative;max-width:1120px;padding:28px;}
+.cert-modal-card{position:relative;max-width:860px;padding:28px;}
 .cert-modal-card .modal-close{display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:10px;top:14px;right:14px;}
 .cert-modal-card .modal-close:hover{background:var(--gray-100);color:var(--navy);}
 .cert-modal-card .modal-close svg{width:20px;height:20px;}
@@ -1006,7 +1006,7 @@ body{overflow-x:hidden;}
 
   /* Sample certificate */
   .cert-showcase .section-head{margin-bottom:34px;}
-  .cert-frame{margin:0 -4px;}
+  .cert-frame{max-width:440px;}
   .cert-zoom{border-radius:6px;}
   .cert-tap-hint{
     display:flex;align-items:center;justify-content:center;gap:6px;
@@ -1077,30 +1077,19 @@ body{overflow-x:hidden;}
   .faq-item summary{min-height:56px;}
   .faq-item .faq-answer p{font-size:14.5px;line-height:1.65;}
 
-  /* Large preview becomes a full-screen sheet */
-  .cert-modal{padding:0;align-items:stretch;}
-  .cert-modal-card{max-width:none;max-height:none;height:100%;border-radius:0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;}
+  /* Large preview: compact centred card */
+  .cert-modal{padding:16px;align-items:center;}
+  .cert-modal-card{max-height:calc(100dvh - 32px);border-radius:18px;padding:18px;}
   .cert-modal-card h3{font-size:17px;padding-right:44px;}
   .cert-modal-note{margin-bottom:12px;font-size:12.5px;}
   .cert-modal-actions{margin-top:14px;}
-  .cert-modal-actions .btn{flex:1;}
+  .cert-modal-actions .btn{flex:1 1 100%;}
 }
 
-/* Portrait phones: show the landscape certificate turned sideways so it
-   fills the screen at roughly twice the size, still with no scrolling. */
-@supports (container-type: size){
-@media (max-width: 640px) and (orientation: portrait){
-  .cert-modal-body{
-    position:relative;flex:1;min-height:0;box-shadow:none;border-radius:0;overflow:hidden;
-    container-type:size;
-  }
-  .cert-modal-body .sample-cert-svg{
-    position:absolute;top:50%;left:50%;
-    width:min(100cqh, calc(100cqw * 1.415));height:auto;
-    transform:translate(-50%,-50%) rotate(90deg);
-    box-shadow:0 0 0 1px var(--gray-100), 0 10px 30px rgba(13,27,46,.15);
-  }
-}
+/* Certificate preview always stays upright; on phones the sheet just centres it. */
+@media (max-width: 640px){
+  .cert-modal-body{display:flex;justify-content:center;box-shadow:none;border-radius:0;}
+  .cert-modal-body .sample-cert-svg{width:100%;max-width:520px;box-shadow:0 0 0 1px var(--gray-100),0 10px 30px rgba(13,27,46,.12);border-radius:6px;}
 }
 
 @media (max-width: 380px){
@@ -1118,3 +1107,21 @@ body{overflow-x:hidden;}
 /* Long emails / URLs must wrap instead of pushing the card wider than the screen. */
 .contact-info-row > div:last-child{min-width:0;overflow-wrap:anywhere;}
 @media (max-width: 480px){ .contact-info-card{padding:24px 20px;} }
+
+/* Program at a glance — quick facts */
+.glance-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:36px 40px;box-shadow:var(--shadow-sm);max-width:980px;margin:0 auto;}
+.glance-card h2{font-size:clamp(22px,2.6vw,28px);margin-bottom:8px;}
+.glance-summary{font-size:15.5px;margin-bottom:22px;}
+.glance-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0;border-top:1px solid var(--gray-100);}
+.glance-list > div{padding:14px 16px 14px 0;border-bottom:1px solid var(--gray-100);}
+.glance-list dt{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
+.glance-list dd{margin:0;font-size:14.5px;font-weight:600;color:var(--navy-2);line-height:1.45;}
+.glance-list dd a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
+@media (max-width: 900px){ .glance-list{grid-template-columns:1fr 1fr;} }
+@media (max-width: 640px){
+  .glance-card{padding:22px 18px;border-radius:18px;}
+  .glance-summary{font-size:14.5px;}
+  .glance-list{grid-template-columns:1fr 1fr;column-gap:16px;}
+  .glance-list > .wide{grid-column:1 / -1;}
+  .glance-list > div{padding:11px 0;}
+}

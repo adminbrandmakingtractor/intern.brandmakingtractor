@@ -17,7 +17,7 @@ function renderHeader(active){
     <header class="site-header">
       <div class="nav">
         <a class="nav-logo" href="/">
-          <img src="assets/img/logo-icon.png" alt="${BRAND.name}">
+          <img src="assets/img/logo-icon-112.webp" alt="${BRAND.name}" width="52" height="52">
         </a>
         <nav class="nav-links" id="navLinks">
           ${NAV_LINKS.map(l => `<a href="${l.href}" class="${active===l.id?'active':''}">${l.label}</a>`).join("")}
@@ -26,13 +26,24 @@ function renderHeader(active){
         <div class="nav-actions">
           <a href="certificate-request" class="btn btn-ghost btn-sm">Request Certificate</a>
           <a href="#" class="btn btn-primary btn-sm" onclick="event.preventDefault(); openApplyModal();">Apply Now</a>
-          <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+          <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">&#9776;</button>
         </div>
       </div>
     </header>`;
-  document.getElementById("navToggle")?.addEventListener("click", () => {
-    document.getElementById("navLinks").classList.toggle("open");
+  const toggle = document.getElementById("navToggle");
+  const links = document.getElementById("navLinks");
+  const setMenu = (open) => {
+    links.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    toggle.innerHTML = open ? "&#10005;" : "&#9776;";
+  };
+  toggle?.addEventListener("click", () => setMenu(!links.classList.contains("open")));
+  links.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("click", (e) => {
+    if (links.classList.contains("open") && !e.target.closest(".site-header")) setMenu(false);
   });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && links.classList.contains("open")) setMenu(false); });
 }
 
 function renderFooter(){
@@ -44,7 +55,7 @@ function renderFooter(){
       <div class="container">
         <div class="footer-grid">
           <div>
-            <img class="footer-logo" src="assets/img/logo.png" alt="${BRAND.name}">
+            <img class="footer-logo" src="assets/img/logo-320.webp" alt="${BRAND.name}" width="44" height="44" loading="lazy" decoding="async">
             <p style="color:rgba(255,255,255,.65);max-width:320px;">1 Week Training + Direct Live Client Project Experience. Choose 4, 6 or 8 weeks — real experience, real work with ${BRAND.name}.</p>
           </div>
           <div>
@@ -288,7 +299,11 @@ function initCountUp(){
       el.textContent = Math.round(target * eased) + suffix;
       if(p < 1) requestAnimationFrame(step);
     };
+    if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches){ el.textContent = target + suffix; return; }
+    el.textContent = "0" + suffix;
     requestAnimationFrame(step);
+    // rAF can be throttled (background tabs, low-power mode) — always land on the real value.
+    setTimeout(() => { el.textContent = target + suffix; }, duration + 150);
   };
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting){ animate(e.target); obs.unobserve(e.target); } });

@@ -10,7 +10,8 @@
 // Edge Function editor (or push via the Supabase CLI) and redeploy.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
-import { PDFDocument, StandardFonts, rgb } from "https://esm.sh/pdf-lib@1.17.1";
+import { PDFDocument, StandardFonts, rgb, degrees } from "https://esm.sh/pdf-lib@1.17.1";
+import fontkit from "https://esm.sh/@pdf-lib/fontkit@1.1.1";
 
 // ---- Config (mirrors apps-script/Config.gs) ----
 const BRAND_NAME = "intern.brandmakingtractor.com";
@@ -478,124 +479,321 @@ async function updateOpeningStatus(openingId: string, status: string) {
 }
 
 // ---- Certificate PDF (pdf-lib, pure JS — no headless browser needed) ----
-const LOGO_URL = "https://wqtxsssegtjedobddtlq.supabase.co/storage/v1/object/public/certificates/assets/logo.png";
+// Layout mirrors the approved certificate design: gold double border, green/
+// navy corner ribbons, laurel "Industry Oriented Internship Program" badge,
+// six-feature strip, verified seal, script signature and verification QR.
+// Coordinates are written top-down (`top` = distance from the page's top
+// edge) and converted to pdf-lib's bottom-up system by the helpers below.
+const LOGO_URLS = [
+  `${SITE_BASE_URL}assets/img/logo-icon.png`,
+  "https://wqtxsssegtjedobddtlq.supabase.co/storage/v1/object/public/certificates/assets/logo.png"
+];
+const SIGNATURE_FONT_URL = "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/greatvibes/GreatVibes-Regular.ttf";
 
 async function fetchBytes(url: string): Promise<Uint8Array> {
   const res = await fetch(url);
+  if (!res.ok) throw new Error(`Fetch failed (${res.status}): ${url}`);
   return new Uint8Array(await res.arrayBuffer());
 }
 
-async function generateCertificatePdf(data: any): Promise<{ url: string; base64: string }> {
+function bytesToBase64(bytes: Uint8Array): string {
+  // Chunked — spreading a whole PDF into String.fromCharCode overflows the call stack.
+  let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+
+async function buildCertificatePdfBytes(data: any): Promise<Uint8Array> {
   const W = 842, H = 595; // A4 landscape, points
   const doc = await PDFDocument.create();
+  doc.registerFontkit(fontkit);
   const page = doc.addPage([W, H]);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const reg = await doc.embedFont(StandardFonts.Helvetica);
-  const italic = await doc.embedFont(StandardFonts.HelveticaOblique);
+  const serif = await doc.embedFont(StandardFonts.TimesRomanBold);
+  let script: any;
+  try {
+    script = await doc.embedFont(await fetchBytes(SIGNATURE_FONT_URL), { subset: true });
+  } catch (_e) {
+    script = await doc.embedFont(StandardFonts.TimesRomanBoldItalic);
+  }
 
-  const navy = rgb(0.05, 0.11, 0.18);
-  const green = rgb(0.18, 0.62, 0.24);
+  const navy = rgb(0.06, 0.12, 0.24);
+  const slate = rgb(0.29, 0.34, 0.44);
+  const gray = rgb(0.45, 0.5, 0.58);
+  const rule = rgb(0.82, 0.84, 0.88);
+  const green = rgb(0.16, 0.56, 0.24);
+  const iconGreen = rgb(0.12, 0.47, 0.27);
+  const darkGreen = rgb(0.09, 0.39, 0.22);
   const blue = rgb(0.12, 0.37, 0.84);
-  const gold = rgb(0.78, 0.62, 0.18);
-  const gray = rgb(0.54, 0.59, 0.66);
-  const paleGray = rgb(0.93, 0.94, 0.96);
+  const gold = rgb(0.79, 0.63, 0.29);
+  const goldLight = rgb(0.91, 0.79, 0.5);
+  const cream = rgb(0.99, 0.95, 0.84);
+  const white = rgb(1, 1, 1);
 
-  const centerText = (text: string, y: number, size: number, f: any, color: any) => {
-    const width = f.widthOfTextAtSize(text, size);
-    page.drawText(text, { x: (W - width) / 2, y, size, font: f, color });
+  const cx = W / 2;
+  // Standard PDF fonts only cover WinAnsi — drop anything they can't encode
+  // instead of failing the whole certificate.
+  const safe = (f: any, s: unknown) => Array.from(String(s ?? "")).filter((ch) => {
+    try { f.encodeText(ch); return true; } catch (_e) { return false; }
+  }).join("");
+  const widthOf = (text: string, f: any, size: number, spacing = 0) =>
+    f.widthOfTextAtSize(text, size) + spacing * Math.max(0, text.length - 1);
+  const fitSize = (text: string, f: any, size: number, maxW: number, spacing = 0) => {
+    const w = widthOf(text, f, size, spacing);
+    return w > maxW ? (size * maxW) / w : size;
+  };
+  const text = (raw: unknown, x: number, top: number, size: number, f: any, color: any,
+    o: { align?: "left" | "center"; maxW?: number; spacing?: number } = {}) => {
+    const s = safe(f, raw);
+    const spacing = o.spacing || 0;
+    const sz = o.maxW ? fitSize(s, f, size, o.maxW, spacing) : size;
+    const w = widthOf(s, f, sz, spacing);
+    let x0 = o.align === "left" ? x : x - w / 2;
+    if (!spacing) { page.drawText(s, { x: x0, y: H - top, size: sz, font: f, color }); return w; }
+    for (const ch of s) {
+      page.drawText(ch, { x: x0, y: H - top, size: sz, font: f, color });
+      x0 += f.widthOfTextAtSize(ch, sz) + spacing;
+    }
+    return w;
+  };
+  const line = (x1: number, t1: number, x2: number, t2: number, thickness: number, color: any) =>
+    page.drawLine({ start: { x: x1, y: H - t1 }, end: { x: x2, y: H - t2 }, thickness, color });
+  // drawSvgPath with origin at the top-left corner -> path coordinates are top-down already.
+  const path = (d: string, o: any) => page.drawSvgPath(d, { x: 0, y: H, ...o });
+  const poly = (pts: number[][], color: any, opacity = 1) =>
+    path(`M ${pts.map((p) => `${p[0]} ${p[1]}`).join(" L ")} Z`, { color, opacity, borderWidth: 0 });
+  const circle = (x: number, top: number, r: number, o: any) =>
+    page.drawEllipse({ x, y: H - top, xScale: r, yScale: r, ...o });
+  const star = (x: number, top: number, r: number, color: any) => {
+    const pts: number[][] = [];
+    for (let i = 0; i < 10; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / 5;
+      const rr = i % 2 === 0 ? r : r * 0.45;
+      pts.push([x + rr * Math.cos(a), top + rr * Math.sin(a)]);
+    }
+    poly(pts, color);
   };
 
-  // ---- Background + border frame ----
-  page.drawRectangle({ x: 0, y: 0, width: W, height: H, color: rgb(1, 1, 1) });
-  page.drawRectangle({ x: 16, y: 16, width: W - 32, height: H - 32, borderColor: navy, borderWidth: 2 });
-  page.drawRectangle({ x: 24, y: 24, width: W - 48, height: H - 48, borderColor: gold, borderWidth: 1 });
-  // Corner accents
-  [[24, 24], [W - 24, 24], [24, H - 24], [W - 24, H - 24]].forEach(([cx, cy]) => {
-    page.drawEllipse({ x: cx, y: cy, xScale: 4, yScale: 4, color: gold });
+  // ---- Background, faint guilloche curves, gold double border ----
+  page.drawRectangle({ x: 0, y: 0, width: W, height: H, color: white });
+  for (let i = 0; i < 6; i++) {
+    path(`M ${W} ${120 + i * 16} C ${780 - i * 6} ${200 + i * 10}, ${770 - i * 6} ${300 + i * 8}, ${W} ${400 + i * 6}`,
+      { borderColor: rule, borderWidth: 0.5, borderOpacity: 0.5 });
+    path(`M 0 ${250 + i * 16} C ${60 + i * 6} ${300 + i * 10}, ${60 + i * 6} ${380 + i * 8}, 0 ${450 + i * 6}`,
+      { borderColor: rule, borderWidth: 0.5, borderOpacity: 0.5 });
+  }
+  page.drawRectangle({ x: 10, y: 10, width: W - 20, height: H - 20, borderColor: gold, borderWidth: 1.6 });
+  page.drawRectangle({ x: 17, y: 17, width: W - 34, height: H - 34, borderColor: gold, borderWidth: 0.6 });
+
+  // ---- Corner ribbons (top-left full size, bottom-right mirrored and smaller) ----
+  const ribbons: [number[][], any][] = [
+    [[[0, 0], [92, 0], [0, 122]], darkGreen],
+    [[[92, 0], [100, 0], [0, 133], [0, 122]], gold],
+    [[[100, 0], [138, 0], [0, 184], [0, 133]], navy],
+    [[[138, 0], [152, 0], [0, 203], [0, 184]], goldLight]
+  ];
+  for (const [pts, color] of ribbons) {
+    poly(pts, color);
+    poly(pts.map(([x, y]) => [W - x * 0.65, H - y * 0.65]), color);
+  }
+
+  // ---- Header: logo, domain, tagline ----
+  for (const url of LOGO_URLS) {
+    try {
+      const logo = await doc.embedPng(await fetchBytes(url));
+      const h = 50, w = (logo.width / logo.height) * h;
+      page.drawImage(logo, { x: cx - w / 2, y: H - 70, width: w, height: h });
+      break;
+    } catch (_e) { /* try the next logo source; the certificate still renders without one */ }
+  }
+  text(BRAND_NAME, cx, 88, 15, bold, green);
+  text("LEARN  •  CREATE  •  GROW", cx, 103, 8, reg, slate, { spacing: 2.2 });
+
+  // ---- Laurel badge (top right) ----
+  const bx = 742, bTop = 70, bR = 50;
+  for (const side of [-1, 1]) {
+    // Branch sweeps from the bottom of the badge up its side; angles measured from straight down.
+    const pt = (deg: number, r: number) => {
+      const a = (deg * Math.PI) / 180;
+      return [bx + side * r * Math.sin(a), bTop + r * Math.cos(a)];
+    };
+    let prev = pt(20, bR);
+    for (let d = 24; d <= 150; d += 4) { const p = pt(d, bR); line(prev[0], prev[1], p[0], p[1], 1, gold); prev = p; }
+    for (let d = 30; d <= 150; d += 13) {
+      const base = pt(d, bR);
+      const ahead = pt(d + 10, bR);
+      const tx = ahead[0] - base[0], ty = ahead[1] - base[1];
+      const tl = Math.hypot(tx, ty);
+      const ux = tx / tl, uy = ty / tl; // along the branch
+      const nx = (base[0] - bx) / bR, ny = (base[1] - bTop) / bR; // outward
+      for (const k of [1, -1]) {
+        const dx = ux * 0.75 + nx * 0.65 * k, dy = uy * 0.75 + ny * 0.65 * k;
+        const dl = Math.hypot(dx, dy), ex = dx / dl, ey = dy / dl;
+        const L = 11, Wd = 3;
+        const tip = [base[0] + ex * L, base[1] + ey * L];
+        const mx = base[0] + ex * L * 0.5, my = base[1] + ey * L * 0.5;
+        path(`M ${base[0]} ${base[1]} Q ${mx - ey * Wd} ${my + ex * Wd} ${tip[0]} ${tip[1]} Q ${mx + ey * Wd} ${my - ex * Wd} ${base[0]} ${base[1]} Z`,
+          { color: k === 1 ? gold : goldLight, borderWidth: 0 });
+      }
+    }
+  }
+  ["INDUSTRY", "ORIENTED", "INTERNSHIP", "PROGRAM"].forEach((s, i) => text(s, bx, 52 + i * 12.5, 9.5, serif, navy));
+  star(bx - 14, 98, 4, gold); star(bx, 97, 5, gold); star(bx + 14, 98, 4, gold);
+
+  // ---- Title + certification ----
+  text("CERTIFICATE OF INTERNSHIP", cx, 152, 36, serif, navy, { maxW: 540 });
+  line(cx - 145, 167, cx - 10, 167, 1.4, gold);
+  line(cx + 10, 167, cx + 145, 167, 1.4, gold);
+  poly([[cx, 161], [cx + 6, 167], [cx, 173], [cx - 6, 167]], gold);
+  text("THIS IS TO CERTIFY THAT", cx, 189, 9, reg, slate, { spacing: 3 });
+  const nameW = text(data.fullName, cx, 223, 30, bold, blue, { maxW: 520 });
+  const ul = Math.max(135, nameW / 2 + 20);
+  line(cx - ul, 236, cx + ul, 236, 0.8, rule);
+  text("has successfully completed the internship program in", cx, 256, 10.5, reg, slate);
+  text(data.internshipTitle, cx, 285, 23, serif, navy, { maxW: 600 });
+  text(`with ${structureLine(data.duration)}`, cx, 305, 12, reg, gray, { maxW: 600 });
+  text(`${fmtDate(data.startDate)}    —    ${fmtDate(data.completionDate)}`, cx, 324, 10.5, reg, slate);
+
+  // ---- Feature strip ----
+  line(42, 337, W - 42, 337, 0.9, gold);
+  line(42, 428, W - 42, 428, 0.9, gold);
+  const colW = (W - 84) / 6;
+  const icons: ((x: number, y: number) => void)[] = [
+    (x, y) => { // graduation cap
+      poly([[x + 12, y + 3], [x + 24, y + 9], [x + 12, y + 15], [x, y + 9]], iconGreen);
+      path(`M ${x + 5} ${y + 12} L ${x + 5} ${y + 19} Q ${x + 12} ${y + 24} ${x + 19} ${y + 19} L ${x + 19} ${y + 12} L ${x + 12} ${y + 16} Z`, { color: iconGreen, borderWidth: 0 });
+      line(x + 22, y + 10, x + 22, y + 18, 1.2, iconGreen);
+    },
+    (x, y) => { // document with check
+      path(`M ${x + 3} ${y + 1} L ${x + 17} ${y + 1} L ${x + 17} ${y + 22} L ${x + 3} ${y + 22} Z`, { borderColor: iconGreen, borderWidth: 1.6 });
+      [6, 10, 14].forEach((dy) => line(x + 6, y + dy, x + 14, y + dy, 1.3, iconGreen));
+      circle(x + 18.5, y + 19, 5.5, { color: iconGreen });
+      line(x + 15.8, y + 19, x + 17.8, y + 21, 1.3, white);
+      line(x + 17.8, y + 21, x + 21.2, y + 17, 1.3, white);
+    },
+    (x, y) => { // briefcase
+      path(`M ${x + 8} ${y + 7} L ${x + 8} ${y + 3} L ${x + 16} ${y + 3} L ${x + 16} ${y + 7}`, { borderColor: iconGreen, borderWidth: 1.8 });
+      page.drawRectangle({ x: x + 1, y: H - (y + 22), width: 22, height: 15, color: iconGreen });
+      line(x + 1, y + 13, x + 23, y + 13, 1, white);
+      page.drawRectangle({ x: x + 10, y: H - (y + 15), width: 4, height: 4, color: white });
+    },
+    (x, y) => { // bar chart
+      page.drawRectangle({ x: x + 3, y: H - (y + 23), width: 5, height: 8, color: iconGreen });
+      page.drawRectangle({ x: x + 10, y: H - (y + 23), width: 5, height: 13, color: iconGreen });
+      page.drawRectangle({ x: x + 17, y: H - (y + 23), width: 5, height: 20, color: iconGreen });
+    },
+    (x, y) => { // mentors group
+      circle(x + 12, y + 6, 3.8, { color: iconGreen });
+      circle(x + 4.5, y + 9, 3, { color: iconGreen });
+      circle(x + 19.5, y + 9, 3, { color: iconGreen });
+      path(`M ${x + 6} ${y + 23} Q ${x + 6} ${y + 11.5} ${x + 12} ${y + 11.5} Q ${x + 18} ${y + 11.5} ${x + 18} ${y + 23} Z`, { color: iconGreen, borderWidth: 0 });
+      path(`M ${x - 1} ${y + 22} Q ${x - 1} ${y + 13.5} ${x + 4.5} ${y + 13.5} Q ${x + 6.5} ${y + 13.5} ${x + 7.5} ${y + 14.5} L ${x + 5} ${y + 22} Z`, { color: iconGreen, borderWidth: 0 });
+      path(`M ${x + 25} ${y + 22} Q ${x + 25} ${y + 13.5} ${x + 19.5} ${y + 13.5} Q ${x + 17.5} ${y + 13.5} ${x + 16.5} ${y + 14.5} L ${x + 19} ${y + 22} Z`, { color: iconGreen, borderWidth: 0 });
+    },
+    (x, y) => { // shield with check
+      path(`M ${x + 12} ${y + 1} L ${x + 22} ${y + 5} L ${x + 22} ${y + 11} Q ${x + 22} ${y + 19} ${x + 12} ${y + 23} Q ${x + 2} ${y + 19} ${x + 2} ${y + 11} L ${x + 2} ${y + 5} Z`, { borderColor: iconGreen, borderWidth: 1.8 });
+      path(`M ${x + 7.5} ${y + 12} L ${x + 11} ${y + 15.5} L ${x + 17} ${y + 8.5}`, { borderColor: iconGreen, borderWidth: 2 });
+    }
+  ];
+  const features: [string[], string[]][] = [
+    [["Expert-Led", "Training"], ["Trained by", "Industry Experts"]],
+    [["Hands-on", "Practical Learning"], ["Real Tools", "Real Projects"]],
+    [["Live Client", "Project"], ["Industry-Oriented", "Work Experience"]],
+    [["Skill", "Assessment"], ["Performance-Based", "Evaluation"]],
+    [["Guided by", "Mentors"], ["Support from", "Industry Professionals"]],
+    [["Verifiable", "Certificate"], ["Digitally Verifiable", "Credentials"]]
+  ];
+  features.forEach(([title, sub], i) => {
+    const fx = 42 + colW * i + colW / 2;
+    icons[i](fx - 12, 345);
+    title.forEach((s, j) => text(s, fx, 382 + j * 11.5, 9.5, bold, navy));
+    sub.forEach((s, j) => text(s, fx, 406 + j * 10.5, 8, reg, gray, { maxW: colW - 10 }));
+    if (i > 0) line(42 + colW * i, 348, 42 + colW * i, 420, 0.6, rule);
   });
 
-  // ---- Header: logo + brand ----
-  try {
-    const logoBytes = await fetchBytes(LOGO_URL);
-    const logoImg = await doc.embedPng(logoBytes);
-    const logoSize = 54;
-    page.drawImage(logoImg, { x: (W - logoSize) / 2, y: H - 92, width: logoSize, height: logoSize });
-  } catch (_e) { /* logo optional — certificate still renders fine without it */ }
-
-  centerText("intern.brandmakingtractor.com", H - 108, 15, bold, green);
-  centerText(BRAND_TAGLINE, H - 122, 9, reg, gray);
-
-  // ---- Title ----
-  centerText("CERTIFICATE OF INTERNSHIP", H - 168, 27, bold, navy);
-  page.drawLine({ start: { x: W / 2 - 90, y: H - 180 }, end: { x: W / 2 + 90, y: H - 180 }, thickness: 1.5, color: gold });
-
-  // ---- Body ----
-  centerText("This is to certify that", H - 212, 11.5, italic, gray);
-  centerText(data.fullName, H - 250, 30, bold, blue);
-  page.drawLine({ start: { x: W / 2 - 140, y: H - 258 }, end: { x: W / 2 + 140, y: H - 258 }, thickness: 0.75, color: paleGray });
-
-  centerText("has successfully completed the internship program in", H - 280, 11.5, reg, gray);
-  centerText(data.internshipTitle, H - 306, 18, bold, navy);
-  centerText(`${structureLine(data.duration)}  ·  ${fmtDate(data.startDate)} — ${fmtDate(data.completionDate)}`, H - 328, 10.5, reg, gray);
-
-  // ---- Footer: credential block (left) + signature (center) + QR (right) ----
-  const footerY = 92;
-  page.drawLine({ start: { x: 70, y: footerY + 46 }, end: { x: W - 70, y: footerY + 46 }, thickness: 0.75, color: paleGray });
-
-  // Left — credential details
-  const rows: [string, string][] = [
-    ["Credential ID", data.credentialId],
-    ["Issue Date", fmtDate(data.issueDate)],
-    ["Valid Until", fmtDate(data.validUntil)]
+  // ---- Footer left: credential details ----
+  const weeks = parseInt(String(data.duration).replace(/[^0-9]/g, ""), 10);
+  const durationText = weeks ? `${weeks} Weeks  |  ${weeks * 10}+ Hours` : String(data.duration || "");
+  const details: [string, string, any][] = [
+    ["CERTIFICATE ID", data.credentialId, bold],
+    ["ISSUE DATE", fmtDate(data.issueDate), bold],
+    ["VALID UNTIL", fmtDate(data.validUntil), bold],
+    ["TOTAL DURATION", durationText, reg]
   ];
-  let ry = footerY + 20;
-  for (const [label, value] of rows) {
-    page.drawText(label.toUpperCase(), { x: 70, y: ry, size: 7.5, font: bold, color: gray });
-    page.drawText(String(value), { x: 70, y: ry - 12, size: 10.5, font: bold, color: navy });
-    ry -= 30;
-  }
+  details.forEach(([label, value, f], i) => {
+    text(label, 46, 462 + i * 24, 7, reg, gray, { align: "left", spacing: 0.5 });
+    text(value, 46, 473 + i * 24, 9, f, navy, { align: "left", maxW: 250 });
+  });
+  line(330, 458, 330, 534, 0.6, rule);
+  line(512, 458, 512, 534, 0.6, rule);
 
-  // Center — verified seal + signature.
-  // A plain checkmark-in-a-circle read as flat/generic, so this draws an
-  // actual seal: a ring of gold "sunburst" rays (drawn first, then the navy
-  // disc painted on top so only their outer tips peek out — the same
-  // draw-then-cover layering already used for the ring below), a bigger/
-  // bolder checkmark, and a small letter-spaced "VERIFIED" label above the
-  // signature line. All done with the same primitives (drawLine/drawEllipse/
-  // drawText) already used elsewhere in this function — no new dependency,
-  // and no reliance on drawSvgPath's coordinate quirks.
-  const sealCx = W / 2, sealCy = footerY + 34;
-  const rayCount = 16, rInner = 20, rOuter = 31;
-  for (let i = 0; i < rayCount; i++) {
-    const angle = (i * 2 * Math.PI) / rayCount;
-    page.drawLine({
-      start: { x: sealCx + rInner * Math.cos(angle), y: sealCy + rInner * Math.sin(angle) },
-      end: { x: sealCx + rOuter * Math.cos(angle), y: sealCy + rOuter * Math.sin(angle) },
-      thickness: 1.3, color: gold
+  // ---- Footer center: verified seal ----
+  const sTop = 496;
+  for (let i = 0; i < 30; i++) {
+    const a = (i * 2 * Math.PI) / 30;
+    circle(cx + 45 * Math.cos(a), sTop + 45 * Math.sin(a), 4.2, { color: gold });
+  }
+  circle(cx, sTop, 46, { color: gold });
+  circle(cx, sTop, 42.5, { color: navy });
+  circle(cx, sTop, 40.5, { borderColor: goldLight, borderWidth: 0.8 });
+  circle(cx, sTop, 27, { borderColor: gold, borderWidth: 1.2 });
+  // Text along the ring: drawn glyph-by-glyph, each rotated to the circle's tangent.
+  const arcText = (s: string, r: number, centerDeg: number, size: number, f: any, color: any, top: boolean, spacing: number) => {
+    const ws = Array.from(s).map((ch) => f.widthOfTextAtSize(ch, size));
+    const total = ws.reduce((a, b) => a + b, 0) + spacing * (s.length - 1);
+    let pos = -total / 2;
+    Array.from(s).forEach((ch, i) => {
+      const mid = pos + ws[i] / 2;
+      const a = ((centerDeg * Math.PI) / 180) + (top ? -mid / r : mid / r);
+      const px = cx + r * Math.cos(a), py = (H - sTop) + r * Math.sin(a);
+      const rot = top ? a - Math.PI / 2 : a + Math.PI / 2;
+      page.drawText(ch, {
+        x: px - (ws[i] / 2) * Math.cos(rot), y: py - (ws[i] / 2) * Math.sin(rot),
+        size, font: f, color, rotate: degrees((rot * 180) / Math.PI)
+      });
+      pos += ws[i] + spacing;
     });
-  }
-  page.drawEllipse({ x: sealCx, y: sealCy, xScale: 24, yScale: 24, color: navy });
-  page.drawEllipse({ x: sealCx, y: sealCy, xScale: 19, yScale: 19, borderColor: gold, borderWidth: 1.2 });
-  // Checkmark — vector lines, standard PDF fonts can't encode the ✓ glyph.
-  page.drawLine({ start: { x: sealCx - 10, y: sealCy - 1 }, end: { x: sealCx - 3, y: sealCy - 9 }, thickness: 3, color: gold });
-  page.drawLine({ start: { x: sealCx - 3, y: sealCy - 9 }, end: { x: sealCx + 11, y: sealCy + 10 }, thickness: 3, color: gold });
+  };
+  arcText("BRANDMAKINGTRACTOR", 31, 90, 6.6, bold, cream, true, 0.6);
+  arcText("VERIFIED", 37.5, 270, 9, serif, goldLight, false, 1.2);
+  star(cx - 34, sTop, 2.6, goldLight);
+  star(cx + 34, sTop, 2.6, goldLight);
+  const kx = cx - 13, kTop = sTop - 9; // crown
+  path(`M ${kx} ${kTop + 4} L ${kx + 7} ${kTop + 11} L ${kx + 13} ${kTop} L ${kx + 19} ${kTop + 11} L ${kx + 26} ${kTop + 4} L ${kx + 23} ${kTop + 17} L ${kx + 3} ${kTop + 17} Z`, { color: gold, borderWidth: 0 });
+  page.drawRectangle({ x: kx + 3, y: H - (kTop + 21), width: 20, height: 2.6, color: gold });
+  [[kx, kTop + 3], [kx + 13, kTop - 1], [kx + 26, kTop + 3]].forEach(([x, t]) => circle(x, t, 1.6, { color: goldLight }));
 
-  centerText("V E R I F I E D", footerY - 4 + 4, 6.5, bold, gold);
-  page.drawLine({ start: { x: sealCx - 60, y: footerY - 4 }, end: { x: sealCx + 60, y: footerY - 4 }, thickness: 0.75, color: navy });
-  centerText(data.approvedBy || "Program Manager", footerY - 16, 10, bold, navy);
-  centerText("Program Manager", footerY - 27, 8, reg, gray);
+  // ---- Footer: signature ----
+  const sigX = 596;
+  const approver = data.approvedBy || "Program Manager";
+  text(approver, sigX, 496, 26, script, navy, { maxW: 150 });
+  line(sigX - 64, 504, sigX + 64, 504, 0.7, slate);
+  text(approver, sigX, 518, 10, bold, navy, { maxW: 140 });
+  text("Program Manager", sigX, 530, 8.5, reg, gray);
+  text("BrandMakingTractor", sigX, 542, 8.5, bold, slate);
 
-  // Right — QR code to verify
+  // ---- Footer right: QR to verify ----
+  const qx = 722;
   try {
-    const qrBytes = await fetchBytes(buildQrCodeUrl(data.verificationUrl));
-    const qrImg = await doc.embedPng(qrBytes);
-    const qrSize = 62;
-    page.drawImage(qrImg, { x: W - 70 - qrSize, y: footerY - 8, width: qrSize, height: qrSize });
-    centerAt(page, W - 70 - qrSize / 2, footerY - 20, "Scan to Verify", 7.5, reg, gray);
+    const qr = await doc.embedPng(await fetchBytes(buildQrCodeUrl(data.verificationUrl)));
+    page.drawImage(qr, { x: qx - 30, y: H - 508, width: 60, height: 60 });
   } catch (_e) { /* QR optional */ }
+  text("Scan to Verify", qx, 518, 7, reg, gray);
+  text("Certificate Authenticity", qx, 527, 7, reg, gray);
+  text(String(data.verificationUrl || "").replace(/^https?:\/\//, "").replace(/\?.*$/, ""), qx, 537, 6.5, reg, slate, { maxW: 120 });
 
-  const bytes = await doc.save();
-  const base64 = btoa(String.fromCharCode(...bytes));
+  // ---- Bottom tagline ----
+  const tw = text("LEARN  •  CREATE  •  GROW", cx, 566, 8.5, reg, navy, { spacing: 2.5 });
+  line(cx - tw / 2 - 92, 563, cx - tw / 2 - 14, 563, 1, gold);
+  line(cx + tw / 2 + 14, 563, cx + tw / 2 + 92, 563, 1, gold);
+
+  return await doc.save();
+}
+
+async function generateCertificatePdf(data: any): Promise<{ url: string; base64: string }> {
+  const bytes = await buildCertificatePdfBytes(data);
+  const base64 = bytesToBase64(bytes);
 
   const path = `Certificate-${data.credentialId}.pdf`;
   const { error: upErr } = await supabase.storage.from("certificates").upload(path, bytes, { contentType: "application/pdf", upsert: true });
@@ -603,11 +801,6 @@ async function generateCertificatePdf(data: any): Promise<{ url: string; base64:
   const { data: pub } = supabase.storage.from("certificates").getPublicUrl(path);
 
   return { url: pub.publicUrl, base64 };
-}
-
-function centerAt(page: any, cx: number, y: number, text: string, size: number, f: any, color: any) {
-  const width = f.widthOfTextAtSize(text, size);
-  page.drawText(text, { x: cx - width / 2, y, size, font: f, color });
 }
 
 async function approveCertificate(body: any) {

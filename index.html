@@ -252,7 +252,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" href="assets/img/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/logo.png">
 <meta name="theme-color" content="#0d1b2e">
-<link rel="stylesheet" href="assets/css/style.css?v=20261004b">
+<link rel="stylesheet" href="assets/css/style.css?v=20261004e">
 <style>/* Safety net if a cached/old stylesheet loads: keep sprite icons icon-sized. */svg:has(> use){width:1.25em;height:1.25em;flex-shrink:0;}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -363,7 +363,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>More Than Just an Internship</h2>
       <p class="lead mx-auto">Everything is built around one goal: helping you learn properly, practise on real work and leave with something to show for it.</p>
     </div>
-    <div class="feature-grid stagger">
+    <div class="feature-grid stagger swipe-row" role="region" aria-label="What you receive (swipe for more)" tabindex="0">
       <article class="feature-card fade-up">
         <span class="ico-badge lg"><svg><use href="#i-book"/></svg></span>
         <h3>Structured Training</h3>
@@ -395,6 +395,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p>Build practical skills and work samples where project permissions allow.</p>
       </article>
     </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe to see more</p>
   </div>
 </section>
 
@@ -476,7 +477,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>Choose Your Internship Track</h2>
       <p class="lead mx-auto">Every track runs on the same structure: 1 week of guided training, then direct practical work and live client project experience.</p>
     </div>
-    <div class="grid grid-3 track-grid">
+    <div class="grid grid-3 track-grid swipe-row" role="region" aria-label="Internship tracks (swipe for more)" tabindex="0">
       <a class="value-card fade-up agency-card" href="internship-detail?id=INT-DA-001">
         <div class="icon">📊</div>
         <h3 style="font-size:18px;">Data Analyst</h3>
@@ -520,6 +521,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="agency-link">Explore Track →</span>
       </a>
     </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe to see more</p>
   </div>
 </section>
 
@@ -555,22 +557,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ============ PROGRAM AT A GLANCE (quick facts for students and answer engines) ============ -->
-<section id="at-a-glance" class="section-tight">
+<section id="at-a-glance" class="glance-section">
   <div class="container">
     <div class="glance-card fade-up">
-      <h2>Program at a Glance</h2>
-      <p class="glance-summary">intern.brandmakingtractor.com is a practical internship program by Brand Making Tractor. Every internship starts with 1 week of guided training, followed by practical assignments and live client project work under manager/team supervision, and lasts 4, 6 or 8 weeks.</p>
-      <dl class="glance-list">
-        <div><dt>Organized by</dt><dd>Brand Making Tractor</dd></div>
-        <div><dt>Durations</dt><dd>4, 6 or 8 weeks</dd></div>
-        <div class="wide"><dt>Program fee</dt><dd>₹1,500 (4 wk) · ₹2,000 (6 wk) · ₹3,000 (8 wk)</dd></div>
-        <div class="wide"><dt>Structure</dt><dd>1 week guided training, then practical &amp; live client project work</dd></div>
-        <div class="wide"><dt>Work mode</dt><dd>Remote (Performance Marketing: Hybrid)</dd></div>
-        <div class="wide"><dt>Tracks</dt><dd>7 — Data Analyst, Performance Marketing, Website Development, Graphic Designing, Content Creation, WordPress Development, Video Editing</dd></div>
-        <div class="wide"><dt>Supervision</dt><dd>Program manager and the responsible team</dd></div>
-        <div class="wide"><dt>Certificate</dt><dd>Issued after meeting program requirements, with a unique certificate ID</dd></div>
-        <div class="wide"><dt>Verification</dt><dd><a href="verify-certificate">Online, using the certificate ID</a></dd></div>
+      <div class="glance-head">
+        <span class="eyebrow glance-eyebrow">Quick Facts</span>
+        <h2>Program at a Glance</h2>
+        <p class="glance-summary">intern.brandmakingtractor.com is a practical internship program by Brand Making Tractor. Every internship starts with 1 week of guided training, followed by practical assignments and live client project work under manager/team supervision, and lasts 4, 6 or 8 weeks.</p>
+      </div>
+      <dl class="glance-tiles">
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-calendar"/></svg></span><dt>Duration</dt><dd><b>4 · 6 · 8 weeks</b><small>Choose what fits you</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-award"/></svg></span><dt>Program fee</dt><dd><b>From ₹1,500</b><small>₹2,000 (6 wk) · ₹3,000 (8 wk)</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-cap"/></svg></span><dt>Training</dt><dd><b>1 week guided</b><small>Then practical &amp; live client work</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-layers"/></svg></span><dt>Tracks</dt><dd><b>7 tracks</b><small>Marketing, tech &amp; creative</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-users"/></svg></span><dt>Supervision</dt><dd><b>Manager &amp; team</b><small>Feedback throughout</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-shield-check"/></svg></span><dt>Certificate</dt><dd><b>Verifiable ID</b><small>Issued after meeting requirements</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-workflow"/></svg></span><dt>Work mode</dt><dd><b>Remote</b><small>Performance Marketing: Hybrid</small></dd></div>
+        <div class="g-tile"><span class="g-ico"><svg><use href="#i-building"/></svg></span><dt>Organized by</dt><dd><b>Brand Making Tractor</b><small>Bengaluru, India</small></dd></div>
       </dl>
+      <div class="glance-tracks">
+        <span class="glance-tracks-label">Internship tracks</span>
+        <ul>
+          <li><a href="internship-detail?id=INT-DA-001">Data Analyst</a></li>
+          <li><a href="internship-detail?id=INT-PM-001">Performance Marketing</a></li>
+          <li><a href="internship-detail?id=INT-WD-001">Website Development</a></li>
+          <li><a href="internship-detail?id=INT-GD-001">Graphic Designing</a></li>
+          <li><a href="internship-detail?id=INT-CC-001">Content Creation</a></li>
+          <li><a href="internship-detail?id=INT-WP-001">WordPress Development</a></li>
+          <li><a href="internship-detail?id=INT-VE-001">Video Editing</a></li>
+        </ul>
+      </div>
+      <a class="glance-verify" href="verify-certificate"><svg><use href="#i-shield-check"/></svg>Certificates can be verified online using the certificate ID<svg class="arrow"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
 </section>
@@ -585,10 +602,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2>An Initiative by Brand Making Tractor</h2>
         <p>Brand Making Tractor provides digital, creative and technology-focused services. Its internship initiative is designed to help aspiring professionals understand practical workflows and develop industry-relevant skills.</p>
         <div class="org-links">
-          <a href="https://brandmakingtractor.com/" target="_blank" rel="noopener noreferrer"><svg><use href="#i-external"/></svg>brandmakingtractor.com</a>
-          <a href="mailto:internship@brandmakingtractor.com"><svg><use href="#i-mail"/></svg>internship@brandmakingtractor.com</a>
-          <a href="about"><svg><use href="#i-building"/></svg>About Us</a>
-          <a href="contact"><svg><use href="#i-message"/></svg>Contact Us</a>
+          <a href="https://brandmakingtractor.com/" target="_blank" rel="noopener noreferrer"><svg><use href="#i-external"/></svg><span>brandmakingtractor.com</span></a>
+          <a href="mailto:internship@brandmakingtractor.com"><svg><use href="#i-mail"/></svg><span>internship@brandmakingtractor.com</span></a>
+          <a href="about"><svg><use href="#i-building"/></svg><span>About Us</span></a>
+          <a href="contact"><svg><use href="#i-message"/></svg><span>Contact Us</span></a>
         </div>
       </div>
     </div>
@@ -597,7 +614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h3 style="font-size:20px;margin-bottom:6px;">Connected Digital Agency Ecosystem</h3>
       <p style="margin:0;">Interns get exposure to a wider ecosystem across marketing, SEO, branding, analytics, content and web development.</p>
     </div>
-    <div class="grid grid-3 eco-grid">
+    <div class="grid grid-3 eco-grid swipe-row" role="region" aria-label="Agency ecosystem (swipe for more)" tabindex="0">
       <a class="value-card fade-up agency-card" href="https://brandmakingtractor.com/" target="_blank" rel="noopener noreferrer">
         <h3 style="font-size:18px;">Brand Making Tractor</h3>
         <p>Digital Marketing • Performance Marketing • Branding • Analytics • Web Development</p>
@@ -614,6 +631,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="agency-link">Visit Website →</span>
       </a>
     </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe to see more</p>
   </div>
 </section>
 
@@ -705,8 +723,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 
-<script src="assets/js/config.js?v=20261004b"></script>
-<script src="assets/js/main.js?v=20261004b"></script>
-<script src="assets/js/home.js?v=20261004b" defer></script>
+<script src="assets/js/config.js?v=20261004e"></script>
+<script src="assets/js/main.js?v=20261004e"></script>
+<script src="assets/js/home.js?v=20261004e" defer></script>
 </body>
 </html>
